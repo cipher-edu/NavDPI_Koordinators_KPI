@@ -137,4 +137,7 @@ JAZZMIN_SETTINGS = {
      "site_title": "CIPHER",
      "site_brand": "CIPHER",
 }
+JAZZMIN_UI_TWEAKS = {
+    "theme": "simplex",
+}
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -13,3 +13,14 @@ class KordinatorAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Kordinators, KordinatorAdmin)
+
+class AdminPost(admin.ModelAdmin):
+    list_display = ('get_html_photo', 'post_title', 'post_content', 'category', 'date_posted')
+    def get_html_photo(self, object):
+        if object.image:
+            return mark_safe(f'<img src="{object.photos.url}" width="50">')
+        return None
+    get_html_photo.short_description = 'Surati'
+admin.site.register( Posts, AdminPost)
+
+admin.site.register(Image)
