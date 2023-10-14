@@ -1,6 +1,13 @@
 from django.db import models
 import uuid
-# Create your models here.
+from django.core.validators import FileExtensionValidator
+from django.core.exceptions import ValidationError
+from django.utils.safestring import mark_safe
+
+def validate_image_size(value):
+    limit = 2 * 1024 * 1024  # 2 MB in bytes
+    if value.size > limit:
+        raise ValidationError('File size too large. Max size is 2 MB.')
 
 fakultets = [
         ('Metematika', 'Matematika'),
@@ -53,7 +60,7 @@ class Kordinators(models.Model):
     ilimiy_darajasi = models.CharField(max_length=25, choices=ilmiy_daraja, verbose_name='Ma\'lumoti')
     kor_lavozimi = models.CharField(max_length=255, choices=kordinator_states, verbose_name='Kordinatorligi')
     tel = models.IntegerField(verbose_name='Telefon raqami')
-    image = models.ImageField(upload_to='media/Kordinator_logo/')
+    image = models.ImageField(upload_to='media/Kordinator_logo/', validators=[validate_image_size])
     about = models.TextField(verbose_name='O\'zi haqida')
     telegram = models.CharField(max_length=250, verbose_name='Telegram link')
     mail = models.CharField(max_length=250, verbose_name='Mail')
@@ -63,22 +70,31 @@ class Kordinators(models.Model):
     def __str__(self):
         return self.name
 
+class Image(models.Model):
+    image = models.ImageField(upload_to='media/post_images/', validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png'])])
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" style="height: 100px;" />' % self.image.url)
+
+    image_tag.short_description = 'Image'
 
 class Posts(models.Model):
-    # Allow multiple photos by using a ManyToMany relationship
-    photos = models.ManyToManyField('PostPhoto', related_name='posts', blank=True)
     post_title = models.CharField(max_length=255, verbose_name='Post sarlavhasi')
     post_content = models.TextField(verbose_name='Post content')
     category = models.ForeignKey('Kordinators', on_delete=models.CASCADE, verbose_name='Post kordinatori')
     date_posted = models.DateTimeField(auto_now_add=True)
     author = models.CharField(choices=author, max_length=255, verbose_name='Author')
-    def __str__(self):
-        return self.post_title
-
-    photos = models.ManyToManyField('Image', blank=True)
+    images = models.ManyToManyField(Image, blank=True, verbose_name='Post Images')
 
     def __str__(self):
         return self.post_title
 
-class Image(models.Model):
-    image = models.ImageField(upload_to='media/post_images/')
+    def display_images(self):
+        return mark_safe(''.join(image.image_tag() for image in self.images.all()))
+
+    display_images.short_description = 'Images'
+
+    def display_selected_images(self):
+        return mark_safe(''.join(f'<img src="{image.image.url}" style="height: 100px; margin-right: 5px;" />' for image in self.images.all()))
+
+    display_selected_images.short_description = 'Selected Images'
