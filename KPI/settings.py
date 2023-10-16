@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core'
+    'core',
 ]
 
 MIDDLEWARE = [
@@ -121,15 +121,23 @@ STATIC_URL = 'static/'
 # STATIC_ROOT = '/home/ciphered/crm/staticfiles/'
 # STATICFILES_DIRS = ['/static/']
 # #local uchun
-# STATIC_ROOT = BASE_DIR / 'staticfiles'
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static'
-# ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 
 #local media
 # MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'
+
+AWS_ACCESS_KEY_ID = 'AKIATJQ3IWD4AEDZ7UPB'
+AWS_SECRET_ACCESS_KEY = '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'
+AWS_STORAGE_BUCKET_NAME = 'backend-yi'
+AWS_S3_FILE_OVERWRITE = False  
+AWS_DEFAULT_ACL = None  
+AWS_S3_REGION_NAME = 'us-east-1'
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 JAZZMIN_SETTINGS = {
