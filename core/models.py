@@ -1,5 +1,6 @@
 from django.db import models
 import uuid
+from django.contrib.auth.models import User
 from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
 from django.utils.safestring import mark_safe
@@ -100,3 +101,11 @@ class Posts(models.Model):
 
     def __str__(self):
         return self.post_title
+
+
+class Task(models.Model):
+    content = models.TextField()
+    given_time = models.DateTimeField()
+    submission_time = models.DateTimeField(null=True, blank=True)
+    assigned_to = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    is_delayed = models.BooleanField(default=False)
