@@ -62,3 +62,8 @@ class PostsAdmin(admin.ModelAdmin):
     display_selected_images.short_description = 'Selected Images'
 
 admin.site.register(Posts, PostsAdmin)
+
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('id','content', 'given_time', 'submission_time', 'assigned_to', 'is_delayed',)
+
+admin.site.register(Task, TaskAdmin)
