@@ -25,6 +25,7 @@ class KordinatorAdmin(admin.ModelAdmin):
 
     get_html_photo.short_description = 'Surati'
 
+# Register Kordinators with KordinatorAdmin
 admin.site.register(Kordinators, KordinatorAdmin)
 
 class ImageAdmin(admin.ModelAdmin):

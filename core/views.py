@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from .models import *
-from django.shortcuts import render, get_object_or_404
-from django.views import View
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.utils import timezone
-# Create your views here.
+from django.shortcuts import render, get_object_or_404,redirect
+from django.contrib.auth import get_user_model
+from django.shortcuts import render, redirect
+from .forms import CustomUserCreationForm
+from django.contrib.auth import login, authenticate
+from .forms import *
+
 def home(request):
     post = Posts.objects.all()
     contetx = {
@@ -12,23 +14,13 @@ def home(request):
     }
     return render(request, 'index.html', contetx)
 
-
-class TaskAssignmentView(LoginRequiredMixin, View):
-    def post(self, request, task_id):
-        task = get_object_or_404(Task, pk=task_id)
-        task.submission_time = timezone.now()
-        task.save()
-        return render(request, 'task_assignment_success.html')
-
-class TaskConfirmationView(LoginRequiredMixin, View):
-    def post(self, request, task_id):
-        task = get_object_or_404(Task, pk=task_id)
-        task.is_delayed = False
-        task.save()
-        return render(request, 'task_confirmation_success.html')
-
-class TaskRejectionView(LoginRequiredMixin, View):
-    def post(self, request, task_id):
-        task = get_object_or_404(Task, pk=task_id)
-        task.delete()
-        return render(request, 'task_rejection_success.html')
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # Redirect to a success page after registration
+            return redirect('registration_success')  # Create this URL and view
+    else:
+        form = RegistrationForm()
+    return render(request, 'registration/register.html', {'form': form})

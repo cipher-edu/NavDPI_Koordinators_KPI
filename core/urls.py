@@ -5,10 +5,9 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('', home, name='home'),
-    path('task/<int:task_id>/assign/', TaskAssignmentView.as_view(), name='task_assignment'),
-    path('task/<int:task_id>/confirm/', TaskConfirmationView.as_view(), name='task_confirmation'),
-    path('task/<int:task_id>/reject/', TaskRejectionView.as_view(), name='task_rejection'),
-
+    path('register/', UserRegistrationView.as_view(), name='register'),
+    path('fill_details/<uuid:kordinator_id>/', fill_kordinator_details, name='fill_details'),
+   
 ]
 
 if settings.DEBUG:
