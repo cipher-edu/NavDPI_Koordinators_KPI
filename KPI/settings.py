@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
+    # 'core',
+    'app',
 ]
 
 MIDDLEWARE = [
@@ -130,7 +131,9 @@ STATICFILES_DIRS = [
 # MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_ROOT = 'media/'
 MEDIA_URL = '/media/'
-
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = '/login'
 AWS_ACCESS_KEY_ID = 'AKIATJQ3IWD4AEDZ7UPB'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'backend-yi'
@@ -148,4 +151,6 @@ JAZZMIN_SETTINGS = {
 JAZZMIN_UI_TWEAKS = {
     "theme": "simplex",
 }
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

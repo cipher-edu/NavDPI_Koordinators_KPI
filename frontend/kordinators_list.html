@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kordinators List</title>
+</head>
+<body>
+    <h1>Kordinators List</h1>
+    <ul>
+        {% for kordinator in kordinators %}
+            <li>
+                <h2>{{ kordinator.name }}</h2>
+                <img src="{{kordinator.image.url}}" alt="" srcset="">
+                <p>Familiyasi: {{ kordinator.lastname }}</p>
+                <p>Telefon raqami: {{ kordinator.tel }}</p>
+                <p></p>
+            </li>
+        {% empty %}
+            <p>No Kordinators found.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>
