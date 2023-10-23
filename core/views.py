@@ -20,7 +20,7 @@ def register(request):
         if form.is_valid():
             form.save()
             # Redirect to a success page after registration
-            return redirect('registration_success')  # Create this URL and view
+            return redirect('home')  # Create this URL and view
     else:
         form = RegistrationForm()
     return render(request, 'registration/register.html', {'form': form})
