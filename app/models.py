@@ -2,7 +2,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager, Permission
 from django.db import models
 import uuid
 from django.core.exceptions import ValidationError
-
+from django.utils import timezone
 def validate_image_size(value):
     limit = 2 * 1024 * 1024  # 2 MB in bytes
     if value.size > limit:
@@ -51,6 +51,7 @@ author = [
     ('Admin', 'Admin')
 ]
 
+        
 class Kordinators(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE )
     name = models.CharField(max_length=25, verbose_name='Ismi')
@@ -70,3 +71,32 @@ class Kordinators(models.Model):
     
     def __str__(self):
         return self.name
+    
+    def send_task_to_coordinators(self, task_name, task_body, task_duration_hours, coordinators=None):
+        current_time = timezone.now()
+        end_time = current_time + timezone.timedelta(hours=task_duration_hours)
+
+        task = Task.objects.create(
+            task_name=task_name,
+            task_body=task_body,
+            task_date=current_time,
+            task_and_date=end_time
+        )
+
+        if coordinators:
+            task.coordinators.add(*coordinators)  # Add the specified coordinators to the task
+
+    def __str__(self):
+        return self.name
+
+class Task(models.Model):
+    task_name = models.CharField(max_length=25, verbose_name='Topshiriq nomi')
+    task_body = models.TextField(verbose_name='Topshiriq Mazmuni')
+    task_date = models.DateTimeField(auto_now=False, verbose_name='Topshiriq yuklangan vaqt')
+    task_and_date = models.DateTimeField(auto_now=False, verbose_name='Topshiriq tugash vaqti')
+    coordinators = models.ManyToManyField(Kordinators, blank=True, verbose_name='Assigned Coordinators')
+    task_file = models.FileField(upload_to='topshiriqlar/', null=True, blank=True)
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    
+    def __str__(self):
+        return self.task_name
