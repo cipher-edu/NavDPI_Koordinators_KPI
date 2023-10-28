@@ -17,6 +17,8 @@ urlpatterns = [
     path('signup/', SingUpView.as_view(), name='signup'),
     path('profile/', dashboard, name='dashboard'),
     path('kordinators/', kordinators_list, name='kordinators_list'),
+    path('user/profile/', user_profile, name='user_profile'),
+    path('update_kordinator_profile/', update_kordinator_profile, name='update_kordinator_profile'),
 ]
 
 if settings.DEBUG:

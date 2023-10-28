@@ -9,6 +9,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 @login_required
 def home(request):
     return render(request, 'index.html')
@@ -54,3 +55,33 @@ class SingUpView(CreateView):
 def kordinators_list(request):
     kordinators = Kordinators.objects.all()
     return render(request, 'kordinators_list.html', {'kordinators': kordinators})
+
+@login_required
+def user_profile(request):
+    user = request.user  # Get the currently logged-in user
+    try:
+        kordinator = Kordinators.objects.get(user=user)  # Fetch Kordinators instance related to the user
+    except Kordinators.DoesNotExist:
+        kordinator = None
+
+    return render(request, 'user_profile.html', {'user': user, 'kordinator': kordinator})
+
+@login_required
+def update_kordinator_profile(request):
+    user = request.user
+    try:
+        kordinator = Kordinators.objects.get(user=user)
+    except Kordinators.DoesNotExist:
+        kordinator = None
+
+    if request.method == 'POST':
+        form = KordinatorsForm(request.POST, request.FILES, instance=kordinator)
+        if form.is_valid():
+            kordinator = form.save(commit=False)
+            kordinator.user = user
+            kordinator.save()
+            return redirect('user_profile')  # Redirect to the user's profile page after saving
+    else:
+        form = KordinatorsForm(instance=kordinator)
+
+    return render(request, 'update_kordinator_profile.html', {'form': form})
