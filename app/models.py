@@ -70,7 +70,11 @@ class Kordinators(models.Model):
 
     
     def __str__(self):
+<<<<<<< HEAD
         return self.user.name
+=======
+        return self.name
+>>>>>>> 20959da185d5c8ba5713a19a155e95269676dc8b
     
     def send_task_to_coordinators(self, task_name, task_body, task_duration_hours, coordinators=None):
         current_time = timezone.now()
