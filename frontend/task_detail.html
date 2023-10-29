@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Detail</title>
+</head>
+<body>
+    <h1>{{ task.task_name }}</h1>
+    <p>{{ task.task_body }}</p>
+
+    <h2>Task Completion</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit Completion">
+    </form>
+
+    <a href="{% url 'task_list' %}">Back to Task List</a>
+</body>
+</html>

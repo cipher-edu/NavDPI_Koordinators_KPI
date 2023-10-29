@@ -1,6 +1,6 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .forms import *
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
 from .forms import *
 from .models import *
@@ -85,3 +85,88 @@ def update_kordinator_profile(request):
         form = KordinatorsForm(instance=kordinator)
 
     return render(request, 'update_kordinator_profile.html', {'form': form})
+
+# task list
+def task_list(request):
+    tasks = Task.objects.all()
+    return render(request, 'task_list.html', {'tasks': tasks})
+
+def assign_task(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    coordinators = Kordinators.objects.all()
+    
+    if request.method == 'POST':
+        selected_coordinators = request.POST.getlist('coordinators')
+        task.coordinators.add(*selected_coordinators)
+        messages.success(request, 'Task assigned successfully.')
+        return redirect('task_list')
+    
+    return render(request, 'assign_task.html', {'task': task, 'coordinators': coordinators})
+
+def mark_task_received(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    coordinator = get_object_or_404(Kordinators, user=request.user)  # Assuming the coordinator is logged in
+
+    if request.method == 'POST':
+        task.mark_as_received(coordinator)
+        messages.success(request, 'Task marked as received.')
+        return redirect('task_list')
+
+    return render(request, 'mark_task_received.html', {'task': task})
+
+
+# def task_detail(request, task_id):
+#     task = get_object_or_404(Task, id=task_id)
+
+#     if request.method == 'POST':
+#         form = TaskCompletionForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             title = form.cleaned_data['title']
+#             description = form.cleaned_data['description']
+#             completed_file = form.cleaned_data['completed_file']
+
+#             # Create a TaskCompletion instance and associate it with the task and coordinator
+#             coordinator = Kordinators.objects.get(user=request.user)
+#             task_completion = TaskCompletion(
+#                 task=task,
+#                 coordinator=coordinator,
+#                 title=title,
+#                 description=description,
+#                 completed_file=completed_file,
+#             )
+#             task_completion.save()
+
+#             return redirect('task_list')  # Redirect to the task list page
+
+#     else:
+#         form = TaskCompletionForm()
+
+#     return render(request, 'task_detail.html', {'form': form, 'task': task})
+
+def task_completion(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+
+    if request.method == 'POST':
+        form = TaskCompletionForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Process and save the completion information
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            completed_file = form.cleaned_data['completed_file']
+
+            # Create a TaskCompletion instance and associate it with the task and coordinator
+            coordinator = Kordinators.objects.get(user=request.user)
+            task_completion = TaskCompletion(
+                task=task,
+                coordinator=coordinator,
+                title=title,
+                description=description,
+                completed_file=completed_file,
+            )
+            task_completion.save()
+            return redirect('task_list')  # Redirect to the task list page
+
+    else:
+        form = TaskCompletionForm()
+
+    return render(request, 'task_completion.html', {'form': form, 'task': task})

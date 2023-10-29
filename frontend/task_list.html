@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+</head>
+<body>
+    <h1>Task List</h1>
+    
+    <form method="post" action="{% url 'accept_selected_tasks' %}">
+        {% csrf_token %}
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    <input type="checkbox" name="task_ids" value="{{ task.id }}">
+                    <strong>{{ task.task_name }}</strong><br>
+                    {{ task.task_body }}<br>
+                    Assigned Coordinators: 
+                    {% for coordinator in task.coordinators.all %}
+                        {{ coordinator.name }} {{ coordinator.lastname }},
+                    {% endfor %}
+                    {% if not task.coordinators.all %}
+                        No coordinators assigned yet.
+                    {% endif %}
+                    <br>
+                </li>
+            {% endfor %}
+        </ul>
+        <input type="submit" value="Mark as Accepted">
+    </form>
+</body>
+</html>

@@ -3,6 +3,8 @@ from django.db import models
 import uuid
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 def validate_image_size(value):
     limit = 2 * 1024 * 1024  # 2 MB in bytes
     if value.size > limit:
@@ -70,12 +72,9 @@ class Kordinators(models.Model):
 
     
     def __str__(self):
-<<<<<<< HEAD
+
         return self.user.name
-=======
-        return self.name
->>>>>>> 20959da185d5c8ba5713a19a155e95269676dc8b
-    
+
     def send_task_to_coordinators(self, task_name, task_body, task_duration_hours, coordinators=None):
         current_time = timezone.now()
         end_time = current_time + timezone.timedelta(hours=task_duration_hours)
@@ -88,8 +87,8 @@ class Kordinators(models.Model):
         )
 
         if coordinators:
-            task.coordinators.add(*coordinators)  # Add the specified coordinators to the task
-
+            for coordinator in coordinators:
+                task.coordinators.add(coordinator) 
     def __str__(self):
         return self.name
 
@@ -101,6 +100,36 @@ class Task(models.Model):
     coordinators = models.ManyToManyField(Kordinators, blank=True, verbose_name='Assigned Coordinators')
     task_file = models.FileField(upload_to='topshiriqlar/', null=True, blank=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    
+    received_by = models.ManyToManyField(Kordinators, blank=True, related_name='received_tasks', verbose_name='Received by Coordinators')
+
+
+    def mark_as_received(self, coordinator):
+        """
+        Marks the task as received by a coordinator.
+        """
+        if coordinator not in self.coordinators.all():
+            # Check if the coordinator is one of the assigned coordinators for this task.
+            return
+
+        if coordinator not in self.received_by.all():
+            # Check if the coordinator has not already marked the task as received.
+            self.received_by.add(coordinator)
+
+    def is_received_by(self, coordinator):
+        """
+        Check if the task is received by a specific coordinator.
+        """
+        return coordinator in self.received_by.all()
     def __str__(self):
         return self.task_name
+    
+class TaskCompletion(models.Model):
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)  # Assuming you have a Task model
+    coordinator = models.ForeignKey(Kordinators, on_delete=models.CASCADE)  # Assuming you have a Kordinators model
+    completion_date = models.DateTimeField(default=timezone.now)
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    completed_file = models.FileField(upload_to='completed_tasks/', blank=True, null=True)
+
+    def __str__(self):
+        return f"Task Completion for {self.task.task_name} by {self.coordinator.name}"

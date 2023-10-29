@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mark Task as Received</title>
+</head>
+<body>
+    <h1>Mark Task as Received</h1>
+    <p>Mark the task as received: "{{ task.task_name }}"</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <p>Are you sure you want to mark this task as received?</p>
+        <input type="submit" value="Yes, Mark as Received">
+    </form>
+    
+    <a href="{% url 'task_list' %}">Back to Task List</a>
+</body>
+</html>
