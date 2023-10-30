@@ -10,6 +10,7 @@
         {% for task in tasks %}
             <li>
                 <strong>{{ task.task_name }}</strong><br>
+                
                 {{ task.task_body }}<br>
                 Assigned Coordinators: 
                 {% for coordinator in task.coordinators.all %}
@@ -22,6 +23,10 @@
                 <a href="{% url 'assign_task' task.id %}">Assign Task</a>
                 {% if request.user.kordinators.is_received_by %}
                     <a href="{% url 'mark_task_received' task.id %}">Mark as Received</a>
+                {% endif %}
+                {# Link to download the task_file if it exists #}
+                {% if task.task_file %}
+                    <a href="{{ task.task_file.url }}" download>Download Task File</a>
                 {% endif %}
                 <a href="{% url 'task_completion' task.id %}">View Details</a>
             </li>
