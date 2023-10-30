@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Assign Task</title>
+</head>
+<body>
+    <h1>Assign Task</h1>
+    <p>Assign coordinators to the task: "{{ task.task_name }}"</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <label for="coordinators">Select Coordinators:</label>
+        <select name="coordinators" multiple>
+            {% for coordinator in coordinators %}
+                <option value="{{ coordinator.id }}">{{ coordinator.name }} {{ coordinator.lastname }}</option>
+            {% endfor %}
+        </select>
+        <br>
+        <input type="submit" value="Assign Task">
+    </form>
+    
+    <a href="{% url 'task_list' %}">Back to Task List</a>
+    <a href="{% url 'mark_task_received' task.id %}">Mark as Received</a>
+
+</body>
+</html>

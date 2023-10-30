@@ -1,0 +1,26 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}</h1>
+
+    <h2>Notifications</h2>
+    <ul>
+        {% for notification in user.kordinators.notification_set.all %}
+            <li>
+                <strong>{{ notification.task.task_name }}</strong> has been assigned to you.
+                {% if not notification.is_read %}
+                    <a href="{% url 'accept_task' notification.task.id %}">Accept</a>
+                {% endif %}
+            </li>
+        {% empty %}
+            <li>No notifications</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Your profile content here -->
+</body>
+</html>

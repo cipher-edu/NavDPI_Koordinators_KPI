@@ -19,6 +19,12 @@ urlpatterns = [
     path('kordinators/', kordinators_list, name='kordinators_list'),
     path('user/profile/', user_profile, name='user_profile'),
     path('update_kordinator_profile/', update_kordinator_profile, name='update_kordinator_profile'),
+    path('tasks/', task_list, name='task_list'),
+    path('tasks/assign/<uuid:task_id>/', assign_task, name='assign_task'),
+    path('tasks/mark-received/<uuid:task_id>/',mark_task_received, name='mark_task_received'),
+    #path('task/<uuid:task_id>/', task_detail, name='task_detail'),
+    path('tasks/complete/<uuid:task_id>/', task_completion, name='task_completion'),
+    
 ]
 
 if settings.DEBUG:

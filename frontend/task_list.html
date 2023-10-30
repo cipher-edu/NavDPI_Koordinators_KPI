@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+</head>
+<body>
+    <h1>Task List</h1>
+    
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <strong>{{ task.task_name }}</strong><br>
+                {{ task.task_body }}<br>
+                Assigned Coordinators: 
+                {% for coordinator in task.coordinators.all %}
+                    {{ coordinator.name }} {{ coordinator.lastname }},
+                {% endfor %}
+                {% if not task.coordinators.all %}
+                    No coordinators assigned yet.
+                {% endif %}
+                <br>
+                <a href="{% url 'assign_task' task.id %}">Assign Task</a>
+                {% if request.user.kordinators.is_received_by %}
+                    <a href="{% url 'mark_task_received' task.id %}">Mark as Received</a>
+                {% endif %}
+                <a href="{% url 'task_completion' task.id %}">View Details</a>
+            </li>
+        {% endfor %}
+    </ul>
+    
+
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}</h1>
+
+    <h2>Tasks</h2>
+    <ul>
+        {% for task in user.kordinators.task_set.all %}
+            <li>
+                <strong>{{ task.task_name }}</strong><br>
+                {{ task.task_body }}<br>
+                Task Duration: {{ task.task_and_date|date:"F j, Y, H:i A" }}<br>
+                <a href="{% url 'assign_task' task.id %}">Assign Task</a>
+            </li>
+        {% empty %}
+            <li>No tasks assigned</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Your profile content here -->
+
+    <a href="{% url 'task_list' %}">Back to Task List</a>
+</body>
+</html>
