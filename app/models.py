@@ -103,27 +103,27 @@ class Task(models.Model):
     received_by = models.ManyToManyField(Kordinators, blank=True, related_name='received_tasks', verbose_name='Received by Coordinators')
     completed = models.BooleanField(default=False, verbose_name='Task Completed')
 
-    def mark_as_received(self, coordinator):
-            """
-            Marks the task as received by a coordinator.
-            """
-            if coordinator not in self.coordinators.all():
-                # Check if the coordinator is one of the assigned coordinators for this task.
-                return
+    # def mark_as_received(self, coordinator):
+    #         """
+    #         Marks the task as received by a coordinator.
+    #         """
+    #         if coordinator not in self.coordinators.all():
+    #             # Check if the coordinator is one of the assigned coordinators for this task.
+    #             return
 
-            if coordinator not in self.received_by.all():
-                # Check if the coordinator has not already marked the task as received.
-                self.received_by.add(coordinator)
+    #         if coordinator not in self.received_by.all():
+    #             # Check if the coordinator has not already marked the task as received.
+    #             self.received_by.add(coordinator)
                 
-                # Also, set the task as completed when received via TaskCompletion
-                self.completed = True
-                self.save()
+    #             # Also, set the task as completed when received via TaskCompletion
+    #             self.completed = True
+    #             self.save()
 
-    def is_received_by(self, coordinator):
-        """
-        Check if the task is received by a specific coordinator.
-        """
-        return coordinator in self.received_by.all()
+    # def is_received_by(self, coordinator):
+    #     """
+    #     Check if the task is received by a specific coordinator.
+    #     """
+    #     return coordinator in self.received_by.all()
 
     def mark_as_completed(self):
         """

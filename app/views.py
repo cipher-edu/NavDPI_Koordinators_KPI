@@ -103,17 +103,19 @@ def assign_task(request, task_id):
         return redirect('task_list')
     
     return render(request, 'assign_task.html', {'task': task, 'coordinators': coordinators})
-@login_required
-def mark_task_received(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
-    coordinator = get_object_or_404(Kordinators, user=request.user)  # Assuming the coordinator is logged in
 
-    if request.method == 'POST':
-        task.mark_as_received(coordinator)
-        messages.success(request, 'Task marked as received.')
-        return redirect('task_list')
+#vazifalarni qabul qilib olish uchun ishlatish mumkin bo'lgan funksiya
+# @login_required
+# def mark_task_received(request, task_id):
+#     task = get_object_or_404(Task, id=task_id)
+#     coordinator = get_object_or_404(Kordinators, user=request.user)  # Assuming the coordinator is logged in
 
-    return render(request, 'mark_task_received.html', {'task': task})
+#     if request.method == 'POST':
+#         task.mark_as_received(coordinator)
+#         messages.success(request, 'Task marked as received.')
+#         return redirect('task_list')
+
+#     return render(request, 'mark_task_received.html', {'task': task})
 
 
 # def task_detail(request, task_id):
