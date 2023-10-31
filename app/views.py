@@ -90,7 +90,14 @@ def update_kordinator_profile(request):
 @login_required
 def task_list(request):
     tasks = Task.objects.all()
-    return render(request, 'task_list.html', {'tasks': tasks})
+    task_completions = TaskCompletion.objects.filter(coordinator=request.user.kordinators, task__in=tasks)
+
+    task_data = []
+    for task in tasks:
+        completed = task_completions.filter(task=task).exists()
+        task_data.append({'task': task, 'completed': completed})
+
+    return render(request, 'task_list.html', {'tasks': task_data})
 @login_required
 def assign_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
@@ -148,6 +155,14 @@ def assign_task(request, task_id):
 @login_required
 def task_completion(request, task_id):
     task = get_object_or_404(Task, id=task_id)
+    coordinator = Kordinators.objects.get(user=request.user)
+
+    # Check if a TaskCompletion instance already exists for the task and coordinator
+    existing_completion = TaskCompletion.objects.filter(task=task, coordinator=coordinator).first()
+
+    if existing_completion:
+        # A completion for this task by this coordinator already exists
+        return HttpResponse("You have already completed this task.")
 
     if request.method == 'POST':
         form = TaskCompletionForm(request.POST, request.FILES)
@@ -158,7 +173,6 @@ def task_completion(request, task_id):
             completed_file = form.cleaned_data['completed_file']
 
             # Create a TaskCompletion instance and associate it with the task and coordinator
-            coordinator = Kordinators.objects.get(user=request.user)
             task_completion = TaskCompletion(
                 task=task,
                 coordinator=coordinator,

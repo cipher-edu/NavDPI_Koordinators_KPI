@@ -7,33 +7,33 @@
     <h1>Task List</h1>
     
     <ul>
-        {% for task in tasks %}
+        {% for data in tasks %}
             <li>
-                <strong>{{ task.task_name }}</strong><br>
-                
-                {{ task.task_body }}<br>
+                <strong>{{ data.task.task_name }}</strong><br>
+                {{ data.task.task_body }}<br>
                 Assigned Coordinators: 
-                {% for coordinator in task.coordinators.all %}
+                {% for coordinator in data.task.coordinators.all %}
                     {{ coordinator.name }} {{ coordinator.lastname }},
                 {% endfor %}
-                {% if not task.coordinators.all %}
+                {% if not data.task.coordinators.all %}
                     No coordinators assigned yet.
                 {% endif %}
                 <br>
-                <a href="{% url 'assign_task' task.id %}">Assign Task</a>
+                <a href="{% url 'assign_task' data.task.id %}">Assign Task</a>
                 {% if request.user.kordinators.is_received_by %}
-                    <a href="{% url 'mark_task_received' task.id %}">Mark as Received</a>
+                    <a href="{% url 'mark_task_received' data.task.id %}">Mark as Received</a>
                 {% endif %}
                 {# Link to download the task_file if it exists #}
-                {% if task.task_file %}
-                    <a href="{{ task.task_file.url }}" download>Download Task File</a>
+                {% if data.task.task_file %}
+                    <a href="{{ data.task.task_file.url }}" download>Download Task File</a>
                 {% endif %}
-                <a href="{% url 'task_completion' task.id %}">View Details</a>
+                {% if data.completed %}
+                    <span style="color: green;">Sent</span>
+                {% else %}
+                    <a href="{% url 'task_completion' data.task.id %}">View Details</a>
+                {% endif %}
             </li>
         {% endfor %}
     </ul>
-    
-
-
 </body>
 </html>
