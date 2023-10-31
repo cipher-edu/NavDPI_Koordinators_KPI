@@ -28,7 +28,7 @@
                     <a href="{{ data.task.task_file.url }}" download>Download Task File</a>
                 {% endif %}
                 {% if data.completed %}
-                    <span style="color: green;">Sent</span>
+                    <span style="color: green;">Yuborilgan</span>
                 {% else %}
                     <a href="{% url 'task_completion' data.task.id %}">View Details</a>
                 {% endif %}
