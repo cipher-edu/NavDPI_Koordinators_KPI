@@ -119,11 +119,11 @@ class Task(models.Model):
                 self.completed = True
                 self.save()
 
-    # def is_received_by(self, coordinator):
-    #     """
-    #     Check if the task is received by a specific coordinator.
-    #     """
-    #     return coordinator in self.received_by.all()
+    def is_received_by(self, coordinator):
+        """
+        Check if the task is received by a specific coordinator.
+        """
+        return coordinator in self.received_by.all()
 
     def mark_as_completed(self):
         """

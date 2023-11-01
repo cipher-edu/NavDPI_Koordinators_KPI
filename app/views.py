@@ -10,6 +10,10 @@ from django.http import HttpResponse
 from django.views.generic import CreateView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.core.paginator import EmptyPage
+from django.core.paginator import PageNotAnInteger
+
 @login_required
 def home(request):
     return render(request, 'index.html')
@@ -96,6 +100,17 @@ def task_list(request):
     for task in tasks:
         completed = task_completions.filter(task=task).exists()
         task_data.append({'task': task, 'completed': completed})
+    tasks_per_page = 1 
+
+    paginator = Paginator(task_data, tasks_per_page)
+    page = request.GET.get('page')
+
+    try:
+        task_data = paginator.page(page)
+    except PageNotAnInteger:
+        task_data = paginator.page(1)
+    except EmptyPage:
+        task_data = paginator.page(paginator.num_pages)
 
     return render(request, 'task_list.html', {'tasks': task_data})
 @login_required
@@ -112,17 +127,17 @@ def assign_task(request, task_id):
     return render(request, 'assign_task.html', {'task': task, 'coordinators': coordinators})
 
 #vazifalarni qabul qilib olish uchun ishlatish mumkin bo'lgan funksiya
-# @login_required
-# def mark_task_received(request, task_id):
-#     task = get_object_or_404(Task, id=task_id)
-#     coordinator = get_object_or_404(Kordinators, user=request.user)  # Assuming the coordinator is logged in
+@login_required
+def mark_task_received(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+    coordinator = get_object_or_404(Kordinators, user=request.user)  # Assuming the coordinator is logged in
 
-#     if request.method == 'POST':
-#         task.mark_as_received(coordinator)
-#         messages.success(request, 'Task marked as received.')
-#         return redirect('task_list')
+    if request.method == 'POST':
+        task.mark_as_received(coordinator)
+        messages.success(request, 'Task marked as received.')
+        return redirect('task_list')
 
-#     return render(request, 'mark_task_received.html', {'task': task})
+    return render(request, 'mark_task_received.html', {'task': task})
 
 
 # def task_detail(request, task_id):

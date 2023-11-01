@@ -4,13 +4,11 @@
     
     <html lang="en">
         <head>
-            <title>My Account | CIPHER - Creative Portfolio</title>
+            <title>Tasks | CIPHER - Creative Portfolio</title>
             <meta charset="utf-8">
-            <meta name="description" content="Download Tank - Creative Portfolio Showcase HTML Website Template that comes with rich features and well-commented code. Made by Themetorium.">
-            <meta name="author" content="themetorium.net">
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-            <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-            <link rel="icon" href="favicon.ico" type="image/x-icon">
+            <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+            <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
             <link rel="preconnect" href="https://fonts.gstatic.com">
             <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> <!-- Body font -->
             <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet"> <!-- Secondary/Alter font -->
@@ -18,8 +16,6 @@
             <link rel="stylesheet" href="{% static 'assets/vendor/fontawesome/css/fontawesome-all.min.css' %}"> <!-- Font Icons CSS (https://fontawesome.com) Free version! -->
             <link rel="stylesheet" href="{% static 'assets/vendor/swiper/css/swiper-bundle.min.css' %}"> <!-- Swiper CSS (https://swiperjs.com/) -->
             <link rel="stylesheet" href="{% static 'assets/vendor/lightgallery/css/lightgallery.min.css' %}"> <!-- lightGallery CSS (http://sachinchoolur.github.io/lightGallery) -->
-    
-            <!-- Template master CSS -->
             <link rel="stylesheet" href="{% static 'assets/css/helper.css' %}">
             <link rel="stylesheet" href="{% static 'assets/css/shop.css' %}"> <!-- Note: Used on shop-related pages only! -->
             <link rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
@@ -32,10 +28,9 @@
                     <div class="ptr-overlay"></div>
                     <div class="ptr-preloader">
                         <div class="ptr-prel-content">
-                            <!-- Hint: You may need to change the img height and opacity to match your logo type. You can do this from the "theme.css" file (find: ".ptr-prel-image"). -->
                             <img src="{% static 'assets/img/logotip.png' %}" class="ptr-prel-image tt-logo-light" alt="Logo">
-                        </div> <!-- /.ptr-prel-content -->
-                    </div> <!-- /.ptr-preloader -->
+                        </div> 
+                    </div> 
                 </div>
                 <div id="magic-cursor">
                     <div id="ball"></div>
@@ -47,12 +42,9 @@
                         <div id="page-header" class="ph-full ph-cap-xxlg ph-center ph-image-cropped ph-content-parallax">
                             <div class="page-header-inner tt-wrap">
                                 <div class="ph-caption">
-                                    <!-- <h1 class="ph-caption-title ph-appear">About</h1> -->
                                     <div class="ph-caption-title-ghost ph-appear">Tasks</div>
                                     <div class="ph-caption-subtitle ph-appear">Vazifalar</div>
                                 </div> 
-                                <!-- End page header caption -->
-    
                             </div>
                             <a href="#page-content" class="scroll-down-circle" data-offset="30">
                                 <div class="sdc-inner ph-appear">
@@ -80,12 +72,11 @@
                             <!-- End made with love -->
                             
                         </div>
-                        <div id="page-content">    
+                        <!-- <div id="page-content">    
                             <div class="tt-section no-padding-top">
                                 <div class="tt-section-inner tt-wrap max-width-600">
     
-                                    <!-- Begin shop reset password box 
-                                    =================================== -->
+                                   
                                     <div class="slr-box shop-reset-password-box">
                                         <ul>
                                             {% for data in tasks %}
@@ -119,78 +110,108 @@
                                     </div>
                                 </div> 
                             </div>    
-                        </div>
+                        </div> -->
                         <div id="shop-wishlist">
 										
-                            <!-- Begin tt-Table  
-                            ==================== -->
                             <table class="tt-table shop-wishlist-table">
                                 <thead class="shop-wishlist-table-head">
                                     <tr>
-                                        <th class="swti-action">
-                                            briktirilgan fayl
+                                        <th >
+                                           Vazifaning nomi
                                         </th>
-                                        <th class="swti-action" colspan="3">
-                                            Product
+                                        <th >
+                                            Vazifaning mazmuni
                                         </th>
-                                        <th class="swti-action">
-                                            Unit Price
+                                        <th>
+                                            Vazifa yulangan koordinatorlar
                                         </th>
-                                        <th class="swh-quantity">
-                                            Stock Status
+                                        <th >
+                                            Vazifaning yuklanish sanasi
                                         </th>
-                                        <th class="swti-action">
-                                            Action
+                                        <th >
+                                            Vazifaning tugash sanasi
+                                        </th>
+                                        <th>
+                                            Vazifani ko'rish
+                                        </th>
+                                        <th >
+                                            Vazifaning fayli
                                         </th>
                                     </tr>
                                 </thead>
-
                                 <tbody class="shop-wishlist-table-body">
-                                    {% for data in tasks %}
-                                    <tr class="shop-wishlist-table-item">
-                                        {% if data.task.task_file %}
-                                        <td class="swti-action">
-                                                        <div class="tt-btn tt-btn-primary">
-                                                            <a href="{{ data.task.task_file.url }}" data-hover="Yuklab olish">Faylni ochish</a>
-                                                        </div>                         
+                                {% for data in tasks %}
+                                    <tr>
+                                        <td>
+                                            <p>
+                                                {{ data.task.task_name }}
+                                            </p>
                                         </td>
-                                       {% else %}
-                                        <td class="swti-action">
-                                            Bu topshiriq uchun fayl mavjud emas!
+                                        <td>
+                                            <p>
+                                                {{ data.task.task_body }}
+                                            </p>
                                         </td>
-                                        {% endif %} 
-                                        <td class="swti-action" data-title="Price">
-                                            <bdi>$25.00</bdi>
-                                            <!-- <div class="swti-price-sale">
-                                                <ins class="swti-current-price"><bdi>$21.00</bdi></ins>
-                                                <del class="swti-old-price"><bdi>$25.00</bdi></del>
-                                            </div> -->
+                                        <td>
+                                            {% for coordinator in data.task.coordinators.all %}
+                                            {{ coordinator.name }} {{ coordinator.lastname }},
+                                        {% endfor %}
                                         </td>
-                                        <td class="swti-action" data-title="Stock Status">
-                                            <span class="swti-in-stock">In Stock</span>
-                                            <!-- <span class="swti-out-of-stock">Out of Stock</span> -->
+                                        <td>
+                                            {{data.task.task_date}}
                                         </td>
-                                        <td class="swti-action">
-                                            <div class="tt-btn tt-btn-primary tt-btn-block">
-                                                <a href="shop-single.html" data-hover="Select Options">Select Options</a>
-                                            </div>
-                                            <!-- <div class="tt-btn tt-btn-primary tt-btn-block">
-                                                <a href="#" data-hover="Add to Cart">Add to Cart</a>
-                                            </div> -->
+                                        <td>
+                                            {{data.task.task_and_date}}
+                                        </td>
+                                        <td>
+                                            {% if data.completed %}
+                                                <p style="color: green;">Vazifa Yuborilgan</p>
+                                            {% else %}
+                                                <a href="{% url 'task_completion' data.task.id %}">
+                                                    <p style="color: red; font-weight: bold;">
+                                                        Vazifa yuborilmagan
+                                                    </p>
+                                                </a>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {# Link to download the task_file if it exists #}
+                                            {% if data.task.task_file %}
+                                                <a href="{{ data.task.task_file.url }}" download style="color: green;">Download Task File</a>
+                                            
+                                            {% else %}
+                                                <p style="color: red;">
+                                                    ushbu vazifa uchun fayl briktirilmagan
+                                                </p>
+                                            {% endif %}
                                         </td>
                                     </tr>
-                                    {% endfor %}
-                                    <tr class="shop-wishlist-table-buttons">
-                                        <td colspan="6">
-                                            <div class="tt-btn tt-btn-dark">
-                                                <a href="shop-list.html" data-hover="Continue Shopping">Continue Shopping</a>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                {% endfor  %}
+                               
+                                    
                                 </tbody>
                             </table>
-                            <!-- End tt-Table -->
-
+                            <div class="tt-pagination tt-pagin-center anim-fadeinup">
+                                <div class="tt-pagin-prev">
+                                    {% if tasks.has_previous %}
+                                    <a href="?page={{ tasks.previous_page_number }}" class="tt-pagin-item magnetic-item"><i class="fas fa-chevron-left"></i></a>
+                                    {% endif %}
+                                </div>
+                                <div class="tt-pagin-numbers">
+                                    {% for i in tasks.paginator.page_range %}
+                                    {% if tasks.number == i %}
+                                        <span  style="color: #ffffff !important;">{{ i }}</span>
+                                    {% else %}
+                                        <a href="?page={{ i }}" class="tt-pagin-item magnetic-item">{{ i }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                <div class="tt-pagin-next">
+                                    {% if tasks.has_next %}
+                                    <a href="?page={{ tasks.next_page_number }}" class="tt-pagin-item tt-pagin-next magnetic-item"><i class="fas fa-chevron-right"></i></a>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
     
                         
