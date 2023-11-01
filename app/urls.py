@@ -25,6 +25,7 @@ urlpatterns = [
     #path('task/<uuid:task_id>/', task_detail, name='task_detail'),
     path('tasks/complete/<uuid:task_id>/', task_completion, name='task_completion'),
     
+    
 ]
 
 if settings.DEBUG:

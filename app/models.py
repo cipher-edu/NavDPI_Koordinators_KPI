@@ -147,11 +147,12 @@ class TaskCompletion(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     completed_file = models.FileField(upload_to='completed_tasks/', blank=True, null=True)
-    completed = models.BooleanField(default=False, verbose_name='Task Completed')
+    is_late_submission = models.BooleanField(default=False, verbose_name='Is Late Submission')
+
+    # Existing methods
 
     def __str__(self):
         return f"Task Completion for {self.task.task_name} by {self.coordinator.name}"
-    
     def save(self, *args, **kwargs):
         # Mark the associated task as received and completed when a TaskCompletion is created
         if not self.completed:

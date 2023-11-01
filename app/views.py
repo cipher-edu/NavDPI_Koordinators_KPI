@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
+from django.utils import timezone
 
 @login_required
 def home(request):
@@ -90,7 +91,6 @@ def update_kordinator_profile(request):
 
     return render(request, 'update_kordinator_profile.html', {'form': form})
 
-# task list
 @login_required
 def task_list(request):
     tasks = Task.objects.all()
@@ -99,8 +99,9 @@ def task_list(request):
     task_data = []
     for task in tasks:
         completed = task_completions.filter(task=task).exists()
-        task_data.append({'task': task, 'completed': completed})
-    tasks_per_page = 1 
+        is_late_submission = task_completions.filter(task=task, is_late_submission=True).exists()
+        task_data.append({'task': task, 'completed': completed, 'is_late_submission': is_late_submission})
+    tasks_per_page = 25 
 
     paginator = Paginator(task_data, tasks_per_page)
     page = request.GET.get('page')
@@ -113,6 +114,42 @@ def task_list(request):
         task_data = paginator.page(paginator.num_pages)
 
     return render(request, 'task_list.html', {'tasks': task_data})
+
+
+@login_required
+def task_completion(request, task_id):
+    task = get_object_or_404(Task, id=task_id)
+
+    if request.method == 'POST':
+        form = TaskCompletionForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Process and save the completion information
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            completed_file = form.cleaned_data['completed_file']
+            
+            # Calculate lateness based on task_and_date
+            is_late_submission = task.task_and_date < timezone.now()
+
+            # Create a TaskCompletion instance and set the is_late_submission field
+            coordinator = Kordinators.objects.get(user=request.user)
+            task_completion = TaskCompletion(
+                task=task,
+                coordinator=coordinator,
+                title=title,
+                description=description,
+                completed_file=completed_file,
+                is_late_submission=is_late_submission,
+            )
+            task_completion.save()
+            
+            return redirect('task_list')  # Redirect to the task list page
+
+    else:
+        form = TaskCompletionForm()
+
+    return render(request, 'task_completion.html', {'form': form, 'task': task})
+
 @login_required
 def assign_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
@@ -167,17 +204,10 @@ def mark_task_received(request, task_id):
 #         form = TaskCompletionForm()
 
 #     return render(request, 'task_detail.html', {'form': form, 'task': task})
+
 @login_required
 def task_completion(request, task_id):
     task = get_object_or_404(Task, id=task_id)
-    coordinator = Kordinators.objects.get(user=request.user)
-
-    # Check if a TaskCompletion instance already exists for the task and coordinator
-    existing_completion = TaskCompletion.objects.filter(task=task, coordinator=coordinator).first()
-
-    if existing_completion:
-        # A completion for this task by this coordinator already exists
-        return HttpResponse("You have already completed this task.")
 
     if request.method == 'POST':
         form = TaskCompletionForm(request.POST, request.FILES)
@@ -186,20 +216,27 @@ def task_completion(request, task_id):
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
             completed_file = form.cleaned_data['completed_file']
+            
+            # Determine if the submission is late based on your business logic
+            is_late_submission = calculate_lateness_logic_here()
 
-            # Create a TaskCompletion instance and associate it with the task and coordinator
+            # Create a TaskCompletion instance and set the is_late_submission field
+            coordinator = Kordinators.objects.get(user=request.user)
             task_completion = TaskCompletion(
                 task=task,
                 coordinator=coordinator,
                 title=title,
                 description=description,
                 completed_file=completed_file,
+                is_late_submission=is_late_submission,
             )
             task_completion.save()
+            
             return redirect('task_list')  # Redirect to the task list page
 
     else:
         form = TaskCompletionForm()
 
     return render(request, 'task_completion.html', {'form': form, 'task': task})
+
 
