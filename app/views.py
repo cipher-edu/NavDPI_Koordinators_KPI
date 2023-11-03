@@ -17,8 +17,20 @@ from django.utils import timezone
 
 @login_required
 def home(request):
-    return render(request, 'index.html')
+    general_coordinators = Kordinators.objects.filter(name='General Coordinator')
+    coordinator_summary = []
+    for coordinator in general_coordinators:
+        completed_tasks_count = TaskCompletion.objects.filter(coordinator=coordinator, task__completed=True).count()
+        coordinator_summary.append({
+            'coordinator_name': coordinator.name,
+            'completed_tasks_count': completed_tasks_count,
+        })
 
+    context = {
+        'coordinator_summary': coordinator_summary,
+    }
+
+    return render(request, 'index.html', context)
 
 def user_login(request):
     if request.method == 'POST':
@@ -123,6 +135,7 @@ def task_completion(request, task_id):
     if request.method == 'POST':
         form = TaskCompletionForm(request.POST, request.FILES)
         if form.is_valid():
+
             # Process and save the completion information
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
@@ -149,6 +162,8 @@ def task_completion(request, task_id):
         form = TaskCompletionForm()
 
     return render(request, 'task_completion.html', {'form': form, 'task': task})
+
+
 
 @login_required
 def assign_task(request, task_id):
@@ -206,37 +221,33 @@ def mark_task_received(request, task_id):
 #     return render(request, 'task_detail.html', {'form': form, 'task': task})
 
 @login_required
-def task_completion(request, task_id):
-    task = get_object_or_404(Task, id=task_id)
+def task_list(request):
+    current_time = timezone.now()
+    tasks = Task.objects.all()
+    task_completions = TaskCompletion.objects.filter(coordinator=request.user.kordinators, task__in=tasks)
+    task_data = []
+    for task in tasks:
+        completed = task_completions.filter(task=task).exists()
+        is_late_submission = task_completions.filter(task=task, is_late_submission=True).exists()
 
-    if request.method == 'POST':
-        form = TaskCompletionForm(request.POST, request.FILES)
-        if form.is_valid():
-            # Process and save the completion information
-            title = form.cleaned_data['title']
-            description = form.cleaned_data['description']
-            completed_file = form.cleaned_data['completed_file']
-            
-            # Determine if the submission is late based on your business logic
-            is_late_submission = calculate_lateness_logic_here()
+        # Check if the task is overdue
+        if task.task_and_date < current_time and not completed:
+            is_late_submission = True
 
-            # Create a TaskCompletion instance and set the is_late_submission field
-            coordinator = Kordinators.objects.get(user=request.user)
-            task_completion = TaskCompletion(
-                task=task,
-                coordinator=coordinator,
-                title=title,
-                description=description,
-                completed_file=completed_file,
-                is_late_submission=is_late_submission,
-            )
-            task_completion.save()
-            
-            return redirect('task_list')  # Redirect to the task list page
+        task_data.append({'task': task, 'completed': completed, 'is_late_submission': is_late_submission})
 
-    else:
-        form = TaskCompletionForm()
+    tasks_per_page = 10
 
-    return render(request, 'task_completion.html', {'form': form, 'task': task})
 
+    paginator = Paginator(task_data, tasks_per_page)
+    page = request.GET.get('page')
+
+    try:
+        task_data = paginator.page(page)
+    except PageNotAnInteger:
+        task_data = paginator.page(1)
+    except EmptyPage:
+        task_data = paginator.page(paginator.num_pages)
+
+    return render(request, 'task_list.html', {'tasks': task_data})
 

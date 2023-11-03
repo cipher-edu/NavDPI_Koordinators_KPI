@@ -41,7 +41,13 @@ INSTALLED_APPS = [
     # 'core',
     'app',
     'widget_tweaks',
+    'axes'
 ]
+# Configure axes
+AXES_FAILURE_LIMIT = 5  # Adjust this to your desired limit
+AXES_COOLOFF_TIME = 3600 # 1 hour in seconds
+# Configure session timeout
+SESSION_COOKIE_AGE = 3600  # 1 hour
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
