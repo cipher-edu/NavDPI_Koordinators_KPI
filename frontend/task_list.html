@@ -115,7 +115,27 @@
                             <table class="tt-table shop-wishlist-table">
                                 <thead class="shop-wishlist-table-head">
                                     <tr>
-                                        <!-- ... Table headers ... -->
+                                       <th>
+                                        Topshiriq nomi
+                                       </th>
+                                       <th>
+                                        Topshiriq mazmuni
+                                       </th>
+                                       <th>
+                                        Tegishli koordinatorlar
+                                       </th>
+                                       <th>
+                                        Topshiriq yuklangan sana
+                                       </th>
+                                       <th>
+                                        Topshiriq tugash muddati
+                                       </th>
+                                       <th>
+                                        Topshiriq xolati
+                                       </th>
+                                       <th>
+                                        Topshiriq Fayli
+                                       </th>
                                     </tr>
                                 </thead>
                                 <tbody class="shop-wishlist-table-body">
@@ -146,20 +166,18 @@
                                                 {% if data.completed %}
                                                     <p style="color: green;">Vazifa Yuborilgan</p>
                                                 {% else %}
-                                                    <a href="{% url 'task_completion' data.task.id %}">
-                                                        <p style="color: red; font-weight: bold;">
+                                                    <a href="{% url 'task_completion' data.task.id %}" style="color: yellow; font-weight: bold;">
                                                             Vazifa yuborilmagan
-                                                        </p>
                                                     </a>
-                                                    {% if data.task.is_late_submission %}
-                                                        <p style="color: red; font-weight: bold;">Late</p>
+                                                    {% if data.is_late_submission %}
+                                                        <p style="color: red; font-weight: bold;">vazifa kechikgan</p>
                                                     {% endif %}
                                                 {% endif %}
                                             </td>
                                             <td>
                                                 {# Link to download the task_file if it exists #}
                                                 {% if data.task.task_file %}
-                                                    <a href="{{ data.task.task_file.url }}" download style="color: green;">Download Task File</a>
+                                                    <a href="{{ data.task.task_file.url }}" download style="color: green;">Topshriq faylini yuklash</a>
                                                 {% else %}
                                                     <p style="color: red;">
                                                         ushbu vazifa uchun fayl briktirilmagan
@@ -171,7 +189,26 @@
                                 </tbody>
                             </table>
                             <div class="tt-pagination tt-pagin-center anim-fadeinup">
-                                <!-- ... Pagination code ... -->
+									<div class="tt-pagin-prev">
+                                        {% if tasks.has_previous %}
+										    <a href="?page={{ tasks.previous_page_number }}" class="tt-pagin-item magnetic-item"><i class="fas fa-chevron-left"></i></a>
+                                        {% endif %}
+									</div>
+                                    
+									<div class="tt-pagin-numbers">
+                                        {% for i in tasks.paginator.page_range %}
+                                        
+                                            {% if tasks.number == i %}
+                                            <a class="tt-pagin-item magnetic-item active">{{ i }}</a>
+                                            {% else %}
+                                             <a href="?page={{ i }}" class="tt-pagin-item magnetic-item disable">{{ i }}</a>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </div>
+                                        
+									<div class="tt-pagin-next">
+										<a href="" class="tt-pagin-item tt-pagin-next magnetic-item"><i class="fas fa-chevron-right"></i></a>
+									</div>
                             </div>
                         </div>
                         
