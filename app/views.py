@@ -14,20 +14,16 @@ from django.core.paginator import Paginator
 from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 from django.utils import timezone
+from django.db.models import Count
 
 @login_required
 def home(request):
-    general_coordinators = Kordinators.objects.filter(name='General Coordinator')
-    coordinator_summary = []
-    for coordinator in general_coordinators:
-        completed_tasks_count = TaskCompletion.objects.filter(coordinator=coordinator, task__completed=True).count()
-        coordinator_summary.append({
-            'coordinator_name': coordinator.name,
-            'completed_tasks_count': completed_tasks_count,
-        })
+    coordinators = Kordinators.objects.annotate(
+        num_completed_tasks=Count('taskcompletion')
+    )
 
     context = {
-        'coordinator_summary': coordinator_summary,
+        'coordinators': coordinators,
     }
 
     return render(request, 'index.html', context)

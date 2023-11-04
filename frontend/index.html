@@ -1,19 +1,186 @@
+
+{% load static  %}
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Coordinator Task Summary</title>
-</head>
-<body>
-    <h1>General Coordinators Task Summary</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Coordinator Name</th>
-                <th>Completed Tasks Count</th>
-            </tr>
-        </thead>
-        <tbody>
-           {{coordinator_summary.coordinator_name}}
-    </table>
+    
+    <html lang="en">
+        <head>
+            <title>Tasks | CIPHER - Creative Portfolio</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+            <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> <!-- Body font -->
+            <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet"> <!-- Secondary/Alter font -->
+            <link rel="stylesheet" href="{% static 'assets/vendor/normalize/normalize.min.css' %}"> <!-- Normalize CSS (https://necolas.github.io/normalize.css/) -->
+            <link rel="stylesheet" href="{% static 'assets/vendor/fontawesome/css/fontawesome-all.min.css' %}"> <!-- Font Icons CSS (https://fontawesome.com) Free version! -->
+            <link rel="stylesheet" href="{% static 'assets/vendor/swiper/css/swiper-bundle.min.css' %}"> <!-- Swiper CSS (https://swiperjs.com/) -->
+            <link rel="stylesheet" href="{% static 'assets/vendor/lightgallery/css/lightgallery.min.css' %}"> <!-- lightGallery CSS (http://sachinchoolur.github.io/lightGallery) -->
+            <link rel="stylesheet" href="{% static 'assets/css/helper.css' %}">
+            <link rel="stylesheet" href="{% static 'assets/css/shop.css' %}"> <!-- Note: Used on shop-related pages only! -->
+            <link rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
+    
+        </head>
+      
+        <body id="body" class="tt-transition tt-boxed tt-smooth-scroll tt-magic-cursor">
+            <main id="body-inner">
+                <div id="page-transition">
+                    <div class="ptr-overlay"></div>
+                    <div class="ptr-preloader">
+                        <div class="ptr-prel-content">
+                            <img src="{% static 'assets/img/logotip.png' %}" class="ptr-prel-image tt-logo-light" alt="Logo">
+                        </div> 
+                    </div> 
+                </div>
+                <div id="magic-cursor">
+                    <div id="ball"></div>
+                </div>
+                {% include 'base/navbar.html' %}
+                <div class="bg-noise"></div>
+                <div id="scroll-container"> 
+                    <div id="content-wrap">
+                        <div id="page-header" class="ph-full ph-cap-xxlg ph-center ph-image-cropped ph-content-parallax">
+                            <div class="page-header-inner tt-wrap">
+                                <div class="ph-caption">
+                                    <div class="ph-caption-title-ghost ph-appear">Tasks</div>
+                                    <div class="ph-caption-subtitle ph-appear">Vazifalar</div>
+                                </div> 
+                            </div>
+                            <a href="#page-content" class="scroll-down-circle" data-offset="30">
+                                <div class="sdc-inner ph-appear">
+                                    <div class="sdc-icon"><i class="fas fa-chevron-down"></i></div>
+                                    <svg viewBox="0 0 500 500">
+                                        <defs>
+                                            <path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle"></path>
+                                        </defs>
+                                        <text dy="30">
+                                            <textPath xlink:href="#textcircle">Scroll down - Scroll down -</textPath>
+                                        </text>
+                                    </svg>
+                                </div> <!-- /.sdc-inner -->
+                            </a>
+                            <!-- End scroll down circle -->
+    
+                            <!-- Begin made with love 
+                            ========================== -->
+                            <div class="made-with-love ph-appear">
+                                <div class="mwl-inner">
+                                    <div class="mwl-text">Made with cipher-edu</div>
+                                    <div class="mwl-icon"><i class="far fa-heart"></i></div>
+                                </div>
+                            </div>
+                            <!-- End made with love -->
+                            
+                        </div>
+                        <div id="shop-wishlist">
+                            <h1>
+                                Koordinatorlar tomonidan bajarilgan vazifalar 
+                            </h1>
+                            <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+                            
+                            <canvas id="myChart" style="width:100%;max-width:600px; background-color: #fff; "></canvas>
+
+                            <script>
+                                // Define the data from the Django template for loop
+                                var xValues = [
+                                  {% for coordinator in coordinators %}
+                                    "{{ coordinator.name }}",
+                                  {% endfor %}
+                                ];
+                                var yValues = [
+                                  {% for coordinator in coordinators %}
+                                    {{ coordinator.num_completed_tasks }},
+                                  {% endfor %}
+                                ];
+                                
+                                // Define bar colors (you can define more colors if needed)
+                                var barColors = ["green", "green", "blue", "orange", "brown"];
+                                
+                                // Create the bar chart
+                                new Chart("myChart", {
+                                  type: "bar",
+                                  data: {
+                                    labels: xValues,
+                                    datasets: [{
+                                      backgroundColor: barColors.slice(0, xValues.length),
+                                      data: yValues
+                                    }]
+                                  },
+                                  options: {
+                                    legend: { display: false },
+                                    title: {
+                                      display: true,
+                                      text: " Koordinatorlar tomonidan bajarilgan vazifalar"
+                                    }
+                                  }
+                                });
+                                </script>
+                                
+                        </div>
+                        
+                        
+                        <footer id="tt-footer">
+                            <div class="tt-footer-inner">
+                                <div class="footer-col tt-align-center-left">
+                                    <div class="footer-col-inner">
+                                        <div class="tt-btn tt-btn-link">
+                                            <a href="#" class="scroll-to-top" data-hover="Back to top">Back to top</a>
+                                        </div>
+    
+                                    </div> 
+                                </div>
+                                <div class="footer-col tt-align-center order-m-last">
+                                    <div class="footer-col-inner">
+    
+                                        <div class="tt-copyright">
+                                            © Copyright - <a href="https://cipher-edu.uz" target="_blank" rel="noopener" class="tt-link">Cipher-edu.uz</a>
+                                        </div>
+    
+                                    </div> 
+                                </div>
+                                <div class="footer-col tt-align-center-right">
+                                    <div class="footer-col-inner">
+    
+                                        <div class="footer-social">
+                                            <div class="footer-social-text"><span>Follow</span><i class="fas fa-share-alt"></i></div>
+                                            <div class="social-buttons">
+                                                <ul>
+                                                    <li><a href="https://www.facebook.com/themetorium" class="magnetic-item" target="_blank" rel="noopener">Fb.</a></li>
+                                                    <li><a href="https://twitter.com/Themetorium" class="magnetic-item" target="_blank" rel="noopener">Tw.</a></li>
+                                                    <li><a href="https://www.youtube.com/" class="magnetic-item" target="_blank" rel="noopener">Yt.</a></li>
+                                                    <li><a href="https://dribbble.com/Themetorium" class="magnetic-item" target="_blank" rel="noopener">Dr.</a></li>
+                                                    <li><a href="https://www.behance.net/Themetorium" class="magnetic-item" target="_blank" rel="noopener">Be.</a></li>
+                                                </ul>
+                                            </div> 
+                                        </div>
+                                    </div> 
+                                </div>
+                            </div> 
+                        </footer>
+                    </div>
+                </div>
+            </main>
+            <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script> <!-- jquery JS (https://jquery.com) -->
+    
+            <!-- Libs and Plugins JS -->
+            <script src="{% static 'assets/vendor/gsap/gsap.min.js' %}"></script> <!-- GSAP JS (https://greensock.com/gsap/) -->
+            <script src="{% static 'assets/vendor/gsap/ScrollToPlugin.min.js' %}"></script> <!-- GSAP ScrollToPlugin JS (https://greensock.com/scrolltoplugin/) -->
+            <script src="{% static 'assets/vendor/gsap/ScrollTrigger.min.js' %}"></script> <!-- GSAP ScrollTrigger JS (https://greensock.com/scrolltrigger/) -->
+    
+            <script src="{% static 'assets/vendor/smooth-scrollbar.js' %}"></script> <!-- Smooth Scrollbar JS (https://github.com/idiotWu/smooth-scrollbar/) -->
+            <script src="{% static 'assets/vendor/swiper/js/swiper-bundle.min.js' %}"></script> <!-- Swiper JS (https://swiperjs.com/) -->
+            <script src="{% static 'assets/vendor/isotope/imagesloaded.pkgd.min.js' %}"></script> <!-- imagesloaded JS (more info: https://imagesloaded.desandro.com/) -->
+            <script src="{% static 'assets/vendor/isotope/isotope.pkgd.min.js' %}"></script> <!-- Isotope JS (http://isotope.metafizzy.co) -->
+            <script src="{% static 'assets/vendor/isotope/packery-mode.pkgd.min.js' %}"></script> <!-- Isotope Packery Mode JS (https://isotope.metafizzy.co/layout-modes/packery.html) -->
+            <script src="{% static 'assets/vendor/lightgallery/js/lightgallery-all.min.js' %}"></script> <!-- lightGallery Plugins JS (http://sachinchoolur.github.io/lightGallery) -->
+            <script src="{% static 'assets/vendor/jquery.mousewheel.min.js' %}"></script> <!-- A jQuery plugin that adds cross browser mouse wheel support (https://github.com/jquery/jquery-mousewheel) -->
+    
+            <!-- Theme master JS -->
+            <script src="{% static 'assets/js/shop.js' %}"></script> <!-- Note: Used on shop-related pages only! -->
+            <script src="{% static 'assets/js/theme.js' %}"></script>
+    
+    
 </body>
 </html>
+    
+    
