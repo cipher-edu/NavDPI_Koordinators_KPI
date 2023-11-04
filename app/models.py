@@ -141,18 +141,20 @@ class Task(models.Model):
     def __str__(self):
         return self.task_name
 class TaskCompletion(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)  # Assuming you have a Task model
-    coordinator = models.ForeignKey(Kordinators, on_delete=models.CASCADE)  # Assuming you have a Kordinators model
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    coordinator = models.ForeignKey(Kordinators, on_delete=models.CASCADE)
     completion_date = models.DateTimeField(default=timezone.now)
     title = models.CharField(max_length=100)
     description = models.TextField()
     completed_file = models.FileField(upload_to='completed_tasks/', blank=True, null=True)
     is_late_submission = models.BooleanField(default=False, verbose_name='Is Late Submission')
+    completed = models.BooleanField(default=False, verbose_name='Task Completed')  # Add this line
 
     # Existing methods
 
     def __str__(self):
         return f"Task Completion for {self.task.task_name} by {self.coordinator.name}"
+    
     def save(self, *args, **kwargs):
         # Mark the associated task as received and completed when a TaskCompletion is created
         if not self.completed:

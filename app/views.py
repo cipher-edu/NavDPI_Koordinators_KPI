@@ -17,8 +17,20 @@ from django.utils import timezone
 
 @login_required
 def home(request):
-    return render(request, 'index.html')
+    general_coordinators = Kordinators.objects.filter(name='General Coordinator')
+    coordinator_summary = []
+    for coordinator in general_coordinators:
+        completed_tasks_count = TaskCompletion.objects.filter(coordinator=coordinator, task__completed=True).count()
+        coordinator_summary.append({
+            'coordinator_name': coordinator.name,
+            'completed_tasks_count': completed_tasks_count,
+        })
 
+    context = {
+        'coordinator_summary': coordinator_summary,
+    }
+
+    return render(request, 'index.html', context)
 
 def user_login(request):
     if request.method == 'POST':
@@ -123,6 +135,7 @@ def task_completion(request, task_id):
     if request.method == 'POST':
         form = TaskCompletionForm(request.POST, request.FILES)
         if form.is_valid():
+
             # Process and save the completion information
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
@@ -149,6 +162,8 @@ def task_completion(request, task_id):
         form = TaskCompletionForm()
 
     return render(request, 'task_completion.html', {'form': form, 'task': task})
+
+
 
 @login_required
 def assign_task(request, task_id):
@@ -235,5 +250,4 @@ def task_list(request):
         task_data = paginator.page(paginator.num_pages)
 
     return render(request, 'task_list.html', {'tasks': task_data})
-
 
