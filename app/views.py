@@ -26,7 +26,7 @@ def home(request):
         'coordinators': coordinators,
     }
 
-    return render(request, 'index.html', context)
+    return render(request, 'glavni.html', context)
 
 def user_login(request):
     if request.method == 'POST':
