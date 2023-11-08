@@ -1,0 +1,18 @@
+<ul>
+    {% for task in tasks %}
+        <li>
+            {{ task.title }} - {{ task.sender.username }}
+            {% if task.accepted %}
+                {% if task.status %}
+                    <span style="color: green;">Approved</span>
+                {% else %}
+                    <span style="color: red;">Not Approved</span>
+                {% endif %}
+            {% else %}
+                {% if request.user == task.sender %}
+                    <a href="{% url 'receive_task' task.id %}">Accept Task</a>
+                {% endif %}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>

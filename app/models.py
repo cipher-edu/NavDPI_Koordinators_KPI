@@ -161,3 +161,13 @@ class TaskCompletion(models.Model):
             self.completed = True
             self.task.mark_as_received(self.coordinator)
         super(TaskCompletion, self).save(*args, **kwargs)
+
+
+class AddWork(models.Model):
+    title = models.CharField(max_length=255)
+    desc = models.TextField()
+    file = models.FileField(upload_to = 'work/', null=True, blank=True)
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_tasks')
+    accepted = models.BooleanField(default=False)
+    def __str__(self):
+        return self.title

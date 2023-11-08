@@ -18,12 +18,21 @@ from django.db.models import Count
 
 @login_required
 def home(request):
+    user = request.user
+    sent_tasks = AddWork.objects.filter(sender=user)
+    for task in sent_tasks:
+        if task.accepted:
+            task.status = True
+        else:
+            task.status = False
+    
     coordinators = Kordinators.objects.annotate(
         num_completed_tasks=Count('taskcompletion')
     )
-
+    
     context = {
         'coordinators': coordinators,
+        'sent_tasks': sent_tasks,  # Add the sent tasks to the context
     }
 
     return render(request, 'glavni.html', context)
@@ -246,4 +255,32 @@ def task_list(request):
         task_data = paginator.page(paginator.num_pages)
 
     return render(request, 'task_list.html', {'tasks': task_data})
+##########################################################################################################
+@login_required
+def send_task(request):
+    if request.method == 'POST':
+        title = request.POST['title']
+        desc = request.POST['desc']
+        file = request.FILES.get('file')
+        sender = request.user  # The sender is the current logged-in user
 
+        task = AddWork(title=title, desc=desc, file=file, sender=sender)
+        task.save()
+
+        return redirect('task_list')  # Redirect to the task list page after sending the task
+
+    return render(request, 'send_task.html')
+
+@login_required
+def receive_task(request, task_id):
+    task = get_object_or_404(AddWork, id=task_id)
+
+    if request.user != task.sender:
+        return HttpResponse("You do not have permission to accept this task.")
+
+    # Mark the task as accepted
+    task.accepted = True
+    task.status = True
+    task.save()
+
+    return redirect('task_list')  

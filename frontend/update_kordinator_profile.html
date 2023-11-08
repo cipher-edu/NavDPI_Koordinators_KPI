@@ -1,14 +1,116 @@
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
     <title>Update Kordinator Profile</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-    <h1>Update Your Kordinator Profile</h1>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-    </form>
+    {% include 'base/navbar.html' %}
+
+    <main>
+        <!--=============== HOME ===============-->
+        <section class="container section section__height" id="home">
+            <h1>Update Your Kordinator Profile</h1>
+    
+            {% load widget_tweaks %}
+            <form class="needs-validation"  action="" method="post">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.name|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.lastname|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.surname|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.age|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.fak|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.ilimiy_darajasi|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.kor_lavozimi|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.tel|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <br>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.image|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.about|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.telegram|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-4 mb-3">
+                        {{form.mail|add_class:"col-md-12 mb-12"}}
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Saqlash</button>
+        
+            </form>
+        </section>
+
+    </main>
+<script>
+    (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.getElementsByClassName('needs-validation');
+        // Loop over them and prevent submission
+        var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+            if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+        });
+    }, false);
+    })();
+</script>
+<script src="{% static 'assets/js/index.js' %}"></script>
+<script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/xy.js"></script>
+<script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>

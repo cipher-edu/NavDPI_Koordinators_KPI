@@ -24,6 +24,7 @@ urlpatterns = [
     path('tasks/mark-received/<uuid:task_id>/',mark_task_received, name='mark_task_received'), #vazifani qabul qilib olganligi haqida url
     #path('task/<uuid:task_id>/', task_detail, name='task_detail'),
     path('tasks/complete/<uuid:task_id>/', task_completion, name='task_completion'),
+    path('send-task/', send_task, name='send_task'),
     
     
 ]

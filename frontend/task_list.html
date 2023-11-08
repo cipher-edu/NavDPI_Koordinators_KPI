@@ -10,112 +10,40 @@
             <link rel="shortcut icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
             <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
             <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
             <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> <!-- Body font -->
             <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet"> <!-- Secondary/Alter font -->
-            <link rel="stylesheet" href="{% static 'assets/vendor/normalize/normalize.min.css' %}"> <!-- Normalize CSS (https://necolas.github.io/normalize.css/) -->
-            <link rel="stylesheet" href="{% static 'assets/vendor/fontawesome/css/fontawesome-all.min.css' %}"> <!-- Font Icons CSS (https://fontawesome.com) Free version! -->
-            <link rel="stylesheet" href="{% static 'assets/vendor/swiper/css/swiper-bundle.min.css' %}"> <!-- Swiper CSS (https://swiperjs.com/) -->
-            <link rel="stylesheet" href="{% static 'assets/vendor/lightgallery/css/lightgallery.min.css' %}"> <!-- lightGallery CSS (http://sachinchoolur.github.io/lightGallery) -->
-            <link rel="stylesheet" href="{% static 'assets/css/helper.css' %}">
-            <link rel="stylesheet" href="{% static 'assets/css/shop.css' %}"> <!-- Note: Used on shop-related pages only! -->
-            <link rel="stylesheet" href="{% static 'assets/css/theme.css' %}">
-    
+            <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
         </head>
       
         <body id="body" class="tt-transition tt-boxed tt-smooth-scroll tt-magic-cursor">
             <main id="body-inner">
-                <div id="page-transition">
-                    <div class="ptr-overlay"></div>
-                    <div class="ptr-preloader">
-                        <div class="ptr-prel-content">
-                            <img src="{% static 'assets/img/logotip.png' %}" class="ptr-prel-image tt-logo-light" alt="Logo">
-                        </div> 
-                    </div> 
-                </div>
-                <div id="magic-cursor">
-                    <div id="ball"></div>
-                </div>
+ <br><br><br><br>
                 {% include 'base/navbar.html' %}
-                <div class="bg-noise"></div>
-                <div id="scroll-container"> 
-                    <div id="content-wrap">
-                        <div id="page-header" class="ph-full ph-cap-xxlg ph-center ph-image-cropped ph-content-parallax">
-                            <div class="page-header-inner tt-wrap">
-                                <div class="ph-caption">
-                                    <div class="ph-caption-title-ghost ph-appear">Tasks</div>
-                                    <div class="ph-caption-subtitle ph-appear">Vazifalar</div>
-                                </div> 
-                            </div>
-                            <a href="#page-content" class="scroll-down-circle" data-offset="30">
-                                <div class="sdc-inner ph-appear">
-                                    <div class="sdc-icon"><i class="fas fa-chevron-down"></i></div>
-                                    <svg viewBox="0 0 500 500">
-                                        <defs>
-                                            <path d="M50,250c0-110.5,89.5-200,200-200s200,89.5,200,200s-89.5,200-200,200S50,360.5,50,250" id="textcircle"></path>
-                                        </defs>
-                                        <text dy="30">
-                                            <textPath xlink:href="#textcircle">Scroll down - Scroll down -</textPath>
-                                        </text>
-                                    </svg>
-                                </div> <!-- /.sdc-inner -->
-                            </a>
-                            <!-- End scroll down circle -->
-    
-                            <!-- Begin made with love 
-                            ========================== -->
-                            <div class="made-with-love ph-appear">
-                                <div class="mwl-inner">
-                                    <div class="mwl-text">Made with</div>
-                                    <div class="mwl-icon"><i class="far fa-heart"></i></div>
-                                </div>
-                            </div>
-                            <!-- End made with love -->
-                            
+                <main class="table">
+                    <section class="table__header">
+                        <h1>Customer's Orders</h1>
+                        <div class="input-group">
+                            <input type="search" placeholder="Search Data...">
+                            <img src="{% static 'assets/img/search.png' %}" alt="">
                         </div>
-                        <!-- <div id="page-content">    
-                            <div class="tt-section no-padding-top">
-                                <div class="tt-section-inner tt-wrap max-width-600">
-    
-                                   
-                                    <div class="slr-box shop-reset-password-box">
-                                        <ul>
-                                            {% for data in tasks %}
-                                                <li>
-                                                    <strong>{{ data.task.task_name }}</strong><br>
-                                                    {{ data.task.task_body }}<br>
-                                                    Assigned Coordinators: 
-                                                    {% for coordinator in data.task.coordinators.all %}
-                                                        {{ coordinator.name }} {{ coordinator.lastname }},
-                                                    {% endfor %}
-                                                    {% if not data.task.coordinators.all %}
-                                                        No coordinators assigned yet.
-                                                    {% endif %}
-                                                    <br>
-                                                    <a href="{% url 'assign_task' data.task.id %}">Assign Task</a>
-                                                    {% if request.user.kordinators.is_received_by %}
-                                                        <a href="{% url 'mark_task_received' data.task.id %}">Mark as Received</a>
-                                                    {% endif %}
-                                                    {# Link to download the task_file if it exists #}
-                                                    {% if data.task.task_file %}
-                                                        <a href="{{ data.task.task_file.url }}" download>Download Task File</a>
-                                                    {% endif %}
-                                                    {% if data.completed %}
-                                                        <span style="color: green;">Yuborilgan</span>
-                                                    {% else %}
-                                                        <a href="{% url 'task_completion' data.task.id %}">View Details</a>
-                                                    {% endif %}
-                                                </li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div>
-                                </div> 
-                            </div>    
-                        </div> -->
-                        <div id="shop-wishlist">
-                            <table class="tt-table shop-wishlist-table">
-                                <thead class="shop-wishlist-table-head">
-                                    <tr>
-                                       <th>
+                        <div class="export__file">
+                            <label for="export-file" class="export__file-btn" title="Export File"></label>
+                            <input type="checkbox" id="export-file">
+                            <div class="export__file-options">
+                                <label>Export As &nbsp; &#10140;</label>
+                                <label for="export-file" id="toPDF">PDF <img src="{% static 'assets/img/search.png' %}" alt=""></label>
+                                <label for="export-file" id="toJSON">JSON <img src="{% static 'assets/img/search.png' %}" alt=""></label>
+                                <label for="export-file" id="toCSV">CSV <img src="{% static 'assets/img/search.png' %}" alt=""></label>
+                                <label for="export-file" id="toEXCEL">EXCEL <img src="{% static 'assets/img/search.png' %}" alt=""></label>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="table__body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>
                                         Topshiriq nomi
                                        </th>
                                        <th>
@@ -136,145 +64,111 @@
                                        <th>
                                         Topshiriq Fayli
                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody class="shop-wishlist-table-body">
-                                    {% for data in tasks %}
-                                        <tr>
-                                            <td>
-                                                <p>
-                                                    {{ data.task.task_name }}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                <p>
-                                                    {{ data.task.task_body }}
-                                                </p>
-                                            </td>
-                                            <td>
-                                                {% for coordinator in data.task.coordinators.all %}
-                                                    {{ coordinator.name }} {{ coordinator.lastname }},
-                                                {% endfor %}
-                                            </td>
-                                            <td>
-                                                {{ data.task.task_date }}
-                                            </td>
-                                            <td>
-                                                {{ data.task.task_and_date }}
-                                            </td>
-                                            <td>
-                                                {% if data.completed %}
-                                                    <p style="color: green;">Vazifa Yuborilgan</p>
-                                                {% else %}
-                                                    <a href="{% url 'task_completion' data.task.id %}" style="color: yellow; font-weight: bold;">
-                                                            Vazifa yuborilmagan
-                                                    </a>
-                                                    {% if data.is_late_submission %}
-                                                        <p style="color: red; font-weight: bold;">vazifa kechikgan</p>
-                                                    {% endif %}
-                                                {% endif %}
-                                            </td>
-                                            <td>
-                                                {# Link to download the task_file if it exists #}
-                                                {% if data.task.task_file %}
-                                                    <a href="{{ data.task.task_file.url }}" download style="color: green;">Topshriq faylini yuklash</a>
-                                                {% else %}
-                                                    <p style="color: red;">
-                                                        ushbu vazifa uchun fayl briktirilmagan
-                                                    </p>
-                                                {% endif %}
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                            <div class="tt-pagination tt-pagin-center anim-fadeinup">
-									<div class="tt-pagin-prev">
-                                        {% if tasks.has_previous %}
-										    <a href="?page={{ tasks.previous_page_number }}" class="tt-pagin-item magnetic-item"><i class="fas fa-chevron-left"></i></a>
-                                        {% endif %}
-									</div>
-                                    
-									<div class="tt-pagin-numbers">
-                                        {% for i in tasks.paginator.page_range %}
-                                        
-                                            {% if tasks.number == i %}
-                                            <a class="tt-pagin-item magnetic-item active">{{ i }}</a>
-                                            {% else %}
-                                             <a href="?page={{ i }}" class="tt-pagin-item magnetic-item disable">{{ i }}</a>
-                                            {% endif %}
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for data in tasks %}
+                                <tr>
+                                    <td>
+                                        <p>
+                                            {{ data.task.task_name }}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        <p>
+                                            {{ data.task.task_body }}
+                                        </p>
+                                    </td>
+                                    <td>
+                                        {% for coordinator in data.task.coordinators.all %}
+                                            {{ coordinator.name }} {{ coordinator.lastname }},
                                         {% endfor %}
-                                        </div>
-                                        
-									<div class="tt-pagin-next">
-										<a href="" class="tt-pagin-item tt-pagin-next magnetic-item"><i class="fas fa-chevron-right"></i></a>
-									</div>
-                            </div>
+                                    </td>
+                                    <td>
+                                        {{ data.task.task_date }}
+                                    </td>
+                                    <td>
+                                        {{ data.task.task_and_date }}
+                                    </td>
+                                    <td>
+                                        {% if data.completed %}
+                                            <p class="status delivered">Vazifa Yuborilgan</p>
+                                            <br>
+                                        {% else %}
+                                        <p class="status pending">
+                                            <a href="{% url 'task_completion' data.task.id %}">
+                                                    Vazifa yuborilmagan
+                                            </a>
+                                        </p>
+                                            {% if data.is_late_submission %}
+                                            <br>
+                                                <p class="status cancelled" style="font-weight: bold;">vazifa kechikgan</p>
+                                            {% endif %}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {# Link to download the task_file if it exists #}
+                                        {% if data.task.task_file %}
+                                        <p class="status delivered">
+                                            <a href="{{ data.task.task_file.url }}" download>Topshriq faylini yuklash</a>
+                                        </p>
+                                        {% else %}
+                                            <p class="status cancelled">
+                                                ushbu vazifa uchun fayl briktirilmagan
+                                            </p>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        
+                        <div class="pagination">
+                            {% if tasks.has_previous %}
+                                <a href="?page={{ tasks.previous_page_number }}" >&laquo;</a>
+                            {% endif %}
+                            {% for i in tasks.paginator.page_range %}
+            
+                            {% if tasks.number == i %}
+                            <a class="tt-pagin-item magnetic-item active">{{ i }}</a>
+                            {% else %}
+                             <a href="?page={{ i }}" class="tt-pagin-item magnetic-item disable">{{ i }}</a>
+                            {% endif %}
+                        {% endfor %}
+                            {% if tasks.has_next %}
+                                <a href="?page={{ tasks.next_page_number  }}" >&raquo;</a>
+                            {% endif %}
+                            
                         </div>
-                        
-                        
-                        <footer id="tt-footer">
-                            <div class="tt-footer-inner">
-                                <div class="footer-col tt-align-center-left">
-                                    <div class="footer-col-inner">
-                                        <div class="tt-btn tt-btn-link">
-                                            <a href="#" class="scroll-to-top" data-hover="Back to top">Back to top</a>
-                                        </div>
-    
-                                    </div> 
-                                </div>
-                                <div class="footer-col tt-align-center order-m-last">
-                                    <div class="footer-col-inner">
-    
-                                        <div class="tt-copyright">
-                                            © Copyright - <a href="https://cipher-edu.uz" target="_blank" rel="noopener" class="tt-link">Cipher-edu.uz</a>
-                                        </div>
-    
-                                    </div> 
-                                </div>
-                                <div class="footer-col tt-align-center-right">
-                                    <div class="footer-col-inner">
-    
-                                        <div class="footer-social">
-                                            <div class="footer-social-text"><span>Follow</span><i class="fas fa-share-alt"></i></div>
-                                            <div class="social-buttons">
-                                                <ul>
-                                                    <li><a href="https://www.facebook.com/themetorium" class="magnetic-item" target="_blank" rel="noopener">Fb.</a></li>
-                                                    <li><a href="https://twitter.com/Themetorium" class="magnetic-item" target="_blank" rel="noopener">Tw.</a></li>
-                                                    <li><a href="https://www.youtube.com/" class="magnetic-item" target="_blank" rel="noopener">Yt.</a></li>
-                                                    <li><a href="https://dribbble.com/Themetorium" class="magnetic-item" target="_blank" rel="noopener">Dr.</a></li>
-                                                    <li><a href="https://www.behance.net/Themetorium" class="magnetic-item" target="_blank" rel="noopener">Be.</a></li>
-                                                </ul>
-                                            </div> 
-                                        </div>
-                                    </div> 
-                                </div>
-                            </div> 
-                        </footer>
                     </div>
-                </div>
+                </section>
             </main>
-            <script src="{% static 'assets/vendor/jquery/jquery.min.js' %}"></script> <!-- jquery JS (https://jquery.com) -->
-    
-            <!-- Libs and Plugins JS -->
-            <script src="{% static 'assets/vendor/gsap/gsap.min.js' %}"></script> <!-- GSAP JS (https://greensock.com/gsap/) -->
-            <script src="{% static 'assets/vendor/gsap/ScrollToPlugin.min.js' %}"></script> <!-- GSAP ScrollToPlugin JS (https://greensock.com/scrolltoplugin/) -->
-            <script src="{% static 'assets/vendor/gsap/ScrollTrigger.min.js' %}"></script> <!-- GSAP ScrollTrigger JS (https://greensock.com/scrolltrigger/) -->
-    
-            <script src="{% static 'assets/vendor/smooth-scrollbar.js' %}"></script> <!-- Smooth Scrollbar JS (https://github.com/idiotWu/smooth-scrollbar/) -->
-            <script src="{% static 'assets/vendor/swiper/js/swiper-bundle.min.js' %}"></script> <!-- Swiper JS (https://swiperjs.com/) -->
-            <script src="{% static 'assets/vendor/isotope/imagesloaded.pkgd.min.js' %}"></script> <!-- imagesloaded JS (more info: https://imagesloaded.desandro.com/) -->
-            <script src="{% static 'assets/vendor/isotope/isotope.pkgd.min.js' %}"></script> <!-- Isotope JS (http://isotope.metafizzy.co) -->
-            <script src="{% static 'assets/vendor/isotope/packery-mode.pkgd.min.js' %}"></script> <!-- Isotope Packery Mode JS (https://isotope.metafizzy.co/layout-modes/packery.html) -->
-            <script src="{% static 'assets/vendor/lightgallery/js/lightgallery-all.min.js' %}"></script> <!-- lightGallery Plugins JS (http://sachinchoolur.github.io/lightGallery) -->
-            <script src="{% static 'assets/vendor/jquery.mousewheel.min.js' %}"></script> <!-- A jQuery plugin that adds cross browser mouse wheel support (https://github.com/jquery/jquery-mousewheel) -->
-    
-            <!-- Theme master JS -->
-            <script src="{% static 'assets/js/shop.js' %}"></script> <!-- Note: Used on shop-related pages only! -->
-            <script src="{% static 'assets/js/theme.js' %}"></script>
-    
-    
+        </div>
+    </div>
+</main>
+            <style>
+                .pagination {
+                  display: inline-block;
+                }
+                
+                .pagination a {
+                  color: black;
+                  float: left;
+                  padding: 8px 16px;
+                  text-decoration: none;
+                }
+                
+                .pagination a.active {
+                  background-color: #4CAF50;
+                  color: white;
+                  border-radius: 5px;
+                }
+                
+                .pagination a:hover:not(.active) {
+                  background-color: #ddd;
+                  border-radius: 5px;
+                }
+                </style>
+<script src="{% static 'assets/js/index.js' %}"></script>
 </body>
 </html>
-    
-    

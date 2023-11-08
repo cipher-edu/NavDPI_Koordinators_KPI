@@ -1,61 +1,54 @@
 
 {% load static %}
-<header id="tt-header" class="tt-header-fixed">
-    <div class="tt-header-inner"> 
-        <div class="tt-header-col">
-            <div class="tt-logo"> 
-                <a href="{% url 'home' %}">
-                    <img src="{% static 'assets/img/logotip.png' %}" class="tt-logo-light magnetic-item" alt="Logo"> <!-- logo light -->
-                    <img src="{% static 'assets/img/logotip.png' %}" class="tt-logo-dark magnetic-item" alt="Logo"> <!-- logo dark -->
-                </a>
-            </div>
+<header class="header" id="header">
+    <nav class="nav container">
+        <a href="#" class="nav__logo">CRM</a>
+
+        <div class="nav__menu" id="nav-menu">
+            <ul class="nav__list">
+                <li class="nav__item">
+                    <a href="{% url 'home' %}" class="nav__link active-link">
+                        <i class='bx bx-home-alt nav__icon'></i>
+                        <span class="nav__name">Home</span>
+                    </a>
+                </li>
+                
+                <li class="nav__item">
+                    <a href="{% url 'task_list' %}" class="nav__link">
+                        <i class='bx bx-message-square-detail nav__icon'></i>
+                        <span class="nav__name">Vazifalar</span>
+                    </a>
+                </li>
+
+                <li class="nav__item">
+                    <a href="{% url 'user_profile' %}" class="nav__link">
+                        <i class='bx bx-user nav__icon '></i>
+                        <span class="nav__name">Shaxsiy profil</span>
+                    </a>
+                </li>
+
+                <li class="nav__item">
+                    <a href="{% url 'update_kordinator_profile' %}" class="nav__link">
+                        <i class='bx bx-briefcase-alt nav__icon'></i>
+                        <span class="nav__name">Profilni taxrirlash</span>
+                    </a>
+                </li>
+
+                <li class="nav__item">
+                    <a href="{% url 'send_task' %}" class="nav__link">
+                        <i class='bx bx-folder-plus nav__icon'></i>
+                        <span class="nav__name">Yangi vazifa qo'shish</span>
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="{% url 'logout' %}" class="nav__link">
+                        <i class='bx bx-user-plus nav__icon'></i>
+                        <span class="nav__name">chiqish</span>
+                    </a>
+                </li>
+            </ul>
         </div>
 
-        <div class="tt-header-col">
-            <div id="tt-ol-menu-toggle-btn-wrap">
-                <div class="tt-ol-menu-toggle-btn-text">
-                    <span class="text-menu" data-hover="Open">Menu</span>
-                    <span class="text-close">Close</span>
-                </div>
-                <div class="tt-ol-menu-toggle-btn-holder">
-                    <a href="#" class="tt-ol-menu-toggle-btn magnetic-item"><span></span></a>
-                </div>
-            </div>
-            <nav class="tt-overlay-menu tt-ol-menu-center tt-ol-menu-count">
-                <div class="tt-ol-menu-holder">
-                    <div class="tt-ol-menu-inner tt-wrap">
-                        <div class="tt-ol-menu-content">
-                            <ul class="tt-ol-menu-list">
-                                <li>
-                                    <a href="{% url 'home' %}">Home</a>
-                                </li>
-                                <li class="tt-ol-submenu-wrap active">
-                                    <div class="tt-ol-submenu-trigger">
-                                        <a href="">Tizim uchun</a>
-                                        <div class="tt-ol-submenu-caret-wrap">
-                                            <div class="tt-ol-submenu-caret magnetic-item"></div>
-                                        </div> 
-                                    </div>
-                                    <div class="tt-ol-submenu">
-                                        <ul class="tt-ol-submenu-list">
-                                            <li><a href="{% url 'signup' %}">Ro'yxatdan o'tish</a></li>
-                                            <li class="active"><a href="{% url 'login' %}">Krish</a></li>
-                                            <li><a href="{% url 'logout' %}">Chiqish</a></li>
-                                            <li><a href="{% url 'update_kordinator_profile' %}">Profilni taxrirlash</a></li>
-                                            <li><a href="{% url 'password_change' %}">Parolni tiklash</a></li>
-                                        </ul> 
-                                    </div> 
-                                </li>      
-                                <li><a href="{% url 'task_list' %}">Vazifalar</a></li> 
-                                <li><a href="{% url 'user_profile' %}">Shaxsiy profil</a></li>                                         
-                                <li><a href="{% url 'logout' %}">Chiqish</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                            </ul>
-                        </div> 
-                    </div> 
-                </div> 
-                <div class="bg-noise"></div>
-            </nav> 
-        </div>
-    </div> 
+        <img src="assets/img/perfil.png" alt="" class="nav__img">
+    </nav>
 </header>
