@@ -2,8 +2,6 @@
 {% load static %}
 <header class="header" id="header">
     <nav class="nav container">
-        <a href="#" class="nav__logo">CRM</a>
-
         <div class="nav__menu" id="nav-menu">
             <ul class="nav__list">
                 <li class="nav__item">
@@ -33,11 +31,31 @@
                         <span class="nav__name">Profilni taxrirlash</span>
                     </a>
                 </li>
-
+                {% if user.is_staff %}
+                                <li class="nav__item">
+                    <a href="https://crm.cipher-edu.uz/cipher-admin/app/task/add/" class="nav__link">
+                        <i class='bx bx-folder-plus nav__icon'></i>
+                        <span class="nav__name">Yangi vazifa qo'shish</span>
+                    </a>
+                </li>
+                             <li class="nav__item">
+                    <a href="{% url 'password_change' %}" 
+                    class="nav__link">
+                        <i class='bx bx-lock-alt nav__icon'></i>
+                        <span class="nav__name">Parolni yangilash</span>
+                    </a>
+                </li>
+                {% endif %}
                 <li class="nav__item">
                     <a href="{% url 'send_task' %}" class="nav__link">
                         <i class='bx bx-folder-plus nav__icon'></i>
-                        <span class="nav__name">Yangi vazifa qo'shish</span>
+                        <span class="nav__name">Yangi ish qo'shish</span>
+                    </a>
+                </li>
+                <li class="nav__item">
+                    <a href="" class="nav__link">
+                        <i class='bx bx-briefcase-alt nav__icon'></i>
+                        <span class="nav__name">Besh tashabbus </span>
                     </a>
                 </li>
                 <li class="nav__item">

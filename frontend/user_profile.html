@@ -20,59 +20,144 @@
         </head>
                 {% include 'base/navbar.html' %}
 
-                              
+                              <section class="container section section__height">
+                                  <div class="profile-cards">
+
+                                  <div class="card card-1">
                                 
-                                <div class="card">
-                                <img src="{{ kordinator.image.url }}" alt="John" style="width:100%">
-                                <p class="title">{{ kordinator.user }}</p>
-                                <h1>{{ kordinator.name }}</h1>
-                                <h4>{{ kordinator.lastname }}</h4>
-                                <h4>{{ kordinator.surname }}</h4>
-                                <h4>{{ kordinator.age }}</h4>
-                                <h4>{{ kordinator.fak }}</h4>
-                                <h4>{{ kordinator.ilimiy_darajasi }}</h4>
-                                <h4>{{ kordinator.kor_lavozimi }}</h4>
-                                <h4>{{ kordinator.tel }}</h4>
-                                <h4>{{ kordinator.about }}</h4>
+                                    <div class="card-description">
+                                
+                                      <h2 class="card-description-title">{{ kordinator.name }}{{ kordinator.lastname }}{{ kordinator.surname }}</h2>
+                                  <span>Yoshi:{{ kordinator.age }}</span>
+                                   <span>Fakulteti:{{ kordinator.fak }}</span>
+                                    <span>Ilmiy darajasi: {{ kordinator.ilimiy_darajasi }}</spa>
+                                     <span >Koordinatorlik lavozimi:{{ kordinator.kor_lavozimi }}</span>
+                                      <span class="card-description-company">
+                                          telefon raqami:
+                                          {{ kordinator.tel }}</span>
+                                
+                                    </div>
+                                
+                                    <img src="{{ kordinator.image.url }}" class="card-image">
+                                
+                                  </div>
+                              </section>
 
-                                <a href="{{kordinator.telegram}}"><i class="fa fa-telegram"></i></a>
-                                <a href="{{kordinator.mail}}" target="_blank"><i class="fa fa-envelope"></i></a>
-                                <p><button>Contact</button></p>
-                            </div>
 <style>
-    .card {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  max-width: 300px;
-  margin: auto;
-  text-align: center;
+  @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+/* * {*/
+/*	 margin: 0;*/
+/*	 padding: 0;*/
+/*	 box-sizing: border-box;*/
+/*}*/
+/* body {*/
+/*	 display: flex;*/
+/*	 align-items: center;*/
+/*	 justify-content: center;*/
+/*	 background-color: white;*/
+/*	 font-family: "Poppins", sans-serif;*/
+/*}*/
+  .profile-cards {
+	 display: flex;
+	 align-items: center;
+	 justify-content: center;
+	 flex-wrap: wrap;
+	 gap: 50px;
+	 margin: 30px;
 }
-
-.title {
-  color: grey;
-  font-size: 18px;
+ .profile-cards .card {
+	 display: flex;
+	 align-items: center;
+	 justify-content: space-between;
+	 width: 700px;
+	 height: 350px;
+	 position: relative;
+	 color: #2d2d2d;
+	 background-color: #b2e5e6;
+	 letter-spacing: 1px;
+	 border: 25px solid #a0cdcf;
+	 border-radius: 25px;
+	 overflow: hidden;
+	 box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
-button {
-  border: none;
-  outline: 0;
-  display: inline-block;
-  padding: 8px;
-  color: white;
-  background-color: #000;
-  text-align: center;
-  cursor: pointer;
-  width: 100%;
-  font-size: 18px;
+ .profile-cards .card .card-description {
+	 display: flex;
+	 flex-direction: column;
+	 gap: 20px;
+	 padding: 40px;
+	 width: auto;
+	 height: 100%;
 }
-
-a {
-  text-decoration: none;
-  font-size: 22px;
-  color: black;
+ .profile-cards .card .card-description .card-description-title {
+	 color: black;
+	 font-size: 18px;
 }
-
-button:hover, a:hover {
-  opacity: 0.7;
+ .profile-cards .card .card-description .card-description-profession {
+	 display: block;
+	 font-size: 16px;
+}
+ .profile-cards .card .card-description .card-description-company {
+	 display: block;
+	 font-size: 14px;
+	 cursor: pointer;
+}
+ .profile-cards .card .card-description .card-description-company:hover {
+	 text-decoration: underline;
+}
+ .profile-cards .card .card-description .card-description-social {
+	 position: absolute;
+	 bottom: 40px;
+}
+ .profile-cards .card .card-description .card-description-social .card-description-social-follow {
+	 display: block;
+	 margin-bottom: 8px;
+	 color: #555572;
+	 font-size: 14px;
+}
+ .profile-cards .card .card-description .card-description-social ul {
+	 display: flex;
+	 align-items: center;
+	 justify-content: center;
+	 gap: 10px;
+}
+ .profile-cards .card .card-description .card-description-social ul li {
+	 list-style-type: none;
+}
+ .profile-cards .card .card-description .card-description-social ul li a {
+	 display: flex;
+	 align-items: center;
+	 justify-content: center;
+	 width: 40px;
+	 height: 40px;
+	 color: #121212;
+	 border-radius: 50%;
+	 box-shadow: 6px 6px 12px #97c3c4, -6px -6px 12px #cdffff;
+	 transition: all 0.4s;
+}
+ .profile-cards .card .card-description .card-description-social ul li a:hover {
+	 color: white;
+	 transform: translate(0, -7px);
+}
+ .profile-cards .card .card-description .card-description-social ul li a svg {
+	 width: calc(100% - 15px);
+	 height: calc(100% - 15px);
+}
+ .profile-cards .card .card-description .card-description-social ul li:nth-child(1) a:hover {
+	 background-color: #1da1f2;
+}
+ .profile-cards .card .card-description .card-description-social ul li:nth-child(2) a:hover {
+	 background-color: #3f729b;
+}
+ .profile-cards .card .card-description .card-description-social ul li:nth-child(3) a:hover {
+	 background-color: #00405d;
+}
+ .profile-cards .card .card-description .card-description-social ul li:nth-child(4) a:hover {
+	 background-color: #0a66c2;
+}
+ .profile-cards .card .card-image {
+	 width: 250px;
+	 height: 100%;
+	 object-fit: cover;
 }
 </style>
 </body>

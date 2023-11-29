@@ -11,7 +11,7 @@ def validate_image_size(value):
         raise ValidationError('File size too large. Max size is 2 MB.')
 
 fakultets = [
-        ('Metematika', 'Matematika'),
+        ('Metematika - Informatika', 'Matematika - Informatika'),
         ('Fizika', 'Fizika'),
         ('Sana\'tshunoslik','Sana\'tshunoslik'),
         ('Jismoniy madaniyat','Jismoniy madaniyat'),
@@ -25,7 +25,7 @@ fakultets = [
 
     ]
 kordinator_states = [
-        ('Metematika', 'Matematika'),
+        ('Metematika - Informatika', 'Matematika - Informatika '),
         ('Fizika', 'Fizika'),
         ('Sana\'tshunoslik','Sana\'tshunoslik'),
         ('Jismoniy madaniyat','Jismoniy madaniyat'),
@@ -45,8 +45,8 @@ kordinator_states = [
         ('Matbuot kotibi, media guruh rahbari','Matbuot kotibi, media guruh rahbari')
 ]
 ilmiy_daraja = [
-    ('Tugallanmangan bakalavr', 'Tugallanmangan bakalavr'),
-    ('Magister', 'Magister')
+    ('Tugallanmangan oliy', 'Tugallanmangan oliy'),
+    ('Magistr', 'Magistr')
 ]
 author = [
     ('Matbuot kotibi', 'Matbuot kotibi'),
@@ -64,7 +64,7 @@ class Kordinators(models.Model):
     ilimiy_darajasi = models.CharField(max_length=25, choices=ilmiy_daraja, verbose_name='Ma\'lumoti')
     kor_lavozimi = models.CharField(max_length=255, choices=kordinator_states, verbose_name='Kordinatorligi')
     tel = models.IntegerField(verbose_name='Telefon raqami')
-    image = models.ImageField(upload_to='media/Kordinator_logo/', validators=[validate_image_size])
+    image = models.ImageField(upload_to='Kordinator_logo/', validators=[validate_image_size])
     about = models.TextField(verbose_name='O\'zi haqida')
     telegram = models.CharField(max_length=250, verbose_name='Telegram link')
     mail = models.CharField(max_length=250, verbose_name='Mail')
@@ -93,7 +93,7 @@ class Kordinators(models.Model):
         return self.name
 
 class Task(models.Model):
-    task_name = models.CharField(max_length=25, verbose_name='Topshiriq nomi')
+    task_name = models.CharField(max_length=255, verbose_name='Topshiriq nomi')
     task_body = models.TextField(verbose_name='Topshiriq Mazmuni')
     task_date = models.DateTimeField(auto_now=False, verbose_name='Topshiriq yuklangan vaqt')
     task_and_date = models.DateTimeField(auto_now=False, verbose_name='Topshiriq tugash vaqti')

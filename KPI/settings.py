@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@cr3g&7=g_d)x*@b%p=_==n*tt_#f&v+eazo3mlji21cr$6vpd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['crm.cipher-edu.uz', 'www.crm.cipher-edu.uz', '127.0.0.1']
 
@@ -50,6 +50,7 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'app.middleware.AutoLogoutMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tashkent'
 
 USE_I18N = True
 
@@ -128,12 +129,18 @@ USE_TZ = True
 # STATICFILES_DIRS = [
 #     BASE_DIR / 'static'
 # ]
+#server
+# STATIC_URL = '/home/ciphered/crm.cipher-edu.uz/crm/static/'
+# STATIC_ROOT = BASE_DIR / '/home/ciphered/crm.cipher-edu.uz/crm/staticfiles'
+# STATICFILES_DIRS=[
+#     BASE_DIR/ "/home/ciphered/crm.cipher-edu.uz/crm/static"
+# ]
+#local
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS=[
     BASE_DIR/ "static"
 ]
-
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
@@ -141,8 +148,12 @@ STATICFILES_FINDERS = [
 ]
 #local media
 # MEDIA_ROOT = BASE_DIR / 'media'
-MEDIA_ROOT = 'media/'
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
+#server
+# MEDIA_ROOT = '/home/ciphered/crm.cipher-edu.uz/crm/media/'
+MEDIA_ROOT = '/media/'
+
+
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = '/login'

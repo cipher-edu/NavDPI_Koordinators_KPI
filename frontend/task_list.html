@@ -14,6 +14,12 @@
             <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> <!-- Body font -->
             <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet"> <!-- Secondary/Alter font -->
             <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+                  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> <!-- Body font -->
+            <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
         </head>
       
         <body id="body" class="tt-transition tt-boxed tt-smooth-scroll tt-magic-cursor">
@@ -22,21 +28,22 @@
                 {% include 'base/navbar.html' %}
                 <main class="table">
                     <section class="table__header">
-                        <h1>Customer's Orders</h1>
+                        <h1>Barcha vazifalar </h1>
                         <div class="input-group">
+                            <label>vaziflarni qidirish</label>
                             <input type="search" placeholder="Search Data...">
                             <img src="{% static 'assets/img/search.png' %}" alt="">
                         </div>
-                        <div class="export__file">
-                            <label for="export-file" class="export__file-btn" title="Export File"></label>
-                            <input type="checkbox" id="export-file">
-                            <div class="export__file-options">
-                                <label>Export As &nbsp; &#10140;</label>
-                                <label for="export-file" id="toPDF">PDF <img src="{% static 'assets/img/search.png' %}" alt=""></label>
-                                <label for="export-file" id="toJSON">JSON <img src="{% static 'assets/img/search.png' %}" alt=""></label>
-                                <label for="export-file" id="toCSV">CSV <img src="{% static 'assets/img/search.png' %}" alt=""></label>
-                                <label for="export-file" id="toEXCEL">EXCEL <img src="{% static 'assets/img/search.png' %}" alt=""></label>
-                            </div>
+                        <!--<div class="export__file">-->
+                        <!--    <label for="export-file" class="export__file-btn" title="Export File"></label>-->
+                        <!--    <input type="checkbox" id="export-file">-->
+                        <!--    <div class="export__file-options">-->
+                        <!--        <label>Export As &nbsp; &#10140;</label>-->
+                        <!--        <label for="export-file" id="toPDF">PDF <img src="{% static 'assets/img/search.png' %}" alt=""></label>-->
+                        <!--        <label for="export-file" id="toJSON">JSON <img src="{% static 'assets/img/search.png' %}" alt=""></label>-->
+                        <!--        <label for="export-file" id="toCSV">CSV <img src="{% static 'assets/img/search.png' %}" alt=""></label>-->
+                        <!--        <label for="export-file" id="toEXCEL">EXCEL <img src="{% static 'assets/img/search.png' %}" alt=""></label>-->
+                        <!--    </div>-->
                         </div>
                     </section>
                     <section class="table__body">

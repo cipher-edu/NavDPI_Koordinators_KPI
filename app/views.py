@@ -15,7 +15,8 @@ from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 from django.utils import timezone
 from django.db.models import Count
-
+from django.core.exceptions import ValidationError
+from django.http import HttpResponse
 @login_required
 def home(request):
     user = request.user
@@ -87,6 +88,29 @@ def user_profile(request):
         kordinator = None
 
     return render(request, 'user_profile.html', {'user': user, 'kordinator': kordinator})
+# @login_required
+# def update_kordinator_profile(request):
+#     user = request.user
+#     kordinator = Kordinators.objects.filter(user=user).first()
+
+#     if request.method == 'POST':
+#         form = KordinatorsForm(request.POST, request.FILES, instance=kordinator)
+#         if form.is_valid():
+#             kordinator = form.save(commit=False)
+#             kordinator.user = user
+#             if 'image' in form.cleaned_data:
+#                 kordinator.save()
+#                 return redirect('user_profile')
+#             else:
+#                 form.add_error('image', ValidationError('Please provide an image.'))
+#         else:
+#             # Handle form validation errors
+#             errors = form.errors
+#             return render(request, 'update_kordinator_profile.html', {'form': form, 'errors': errors})
+#     else:
+#         form = KordinatorsForm(instance=kordinator)
+
+#     return render(request, 'update_kordinator_profile.html', {'form': form})
 
 @login_required
 def update_kordinator_profile(request):
@@ -118,7 +142,7 @@ def task_list(request):
         completed = task_completions.filter(task=task).exists()
         is_late_submission = task_completions.filter(task=task, is_late_submission=True).exists()
         task_data.append({'task': task, 'completed': completed, 'is_late_submission': is_late_submission})
-    tasks_per_page = 25 
+    tasks_per_page = 10
 
     paginator = Paginator(task_data, tasks_per_page)
     page = request.GET.get('page')
