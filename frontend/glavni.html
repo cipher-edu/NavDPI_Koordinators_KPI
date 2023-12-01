@@ -28,46 +28,10 @@
         <main>
             <!--=============== HOME ===============-->
             <section class="container section section__height" >
-              <center>
-                <h2>
-                  qo'shimcha yuklangan vaziflaar va ularning holatlari
-                </h2>
-               </center>
-              <table>
-                <thead>
-                  <tr>
-                    <th>Coordinator</th>
-                    <th>Bajarilgan topshiriqlar soni</th>
-                    <th>Yuborilgan topshiriq</th>
-                </tr>
-                </thead>
-                <tbody>
-                  {% for coordinator in coordinators %}
-                      <tr>
-                          <td>{{ coordinator.name }}</td>
-                          <td>{{ coordinator.num_completed_tasks }}</td>
-                          <td>
-                              <ul>
-                                  {% for task in sent_tasks %}
-                                      {% if task.sender == coordinator.user %}
-                                          <li>
-                                              {{ task.title }} (Yuboruvchi {{ task.sender.username }})
-                                              <span style="color: {% if task.status %}green{% else %}red{% endif %}">
-                                                  {% if task.status %}Tasdiqlangan{% else %}Tasdiqlanmagan{% endif %}
-                                              </span>
-                                          </li>
-                                      {% endif %}
-                                  {% endfor %}
-                              </ul>
-                          </td>
-                      </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-              <br><br><br>
+
              <center>
               <h2>
-                admin tomonidan yuklangan vazifalarning ko'rsatgichlari
+                Yuklangan vazifalarning ijrosi % larda ko'rsatgichi
               </h2>
              </center>
              <div id="chartdiv"></div>

@@ -45,29 +45,51 @@
                 <span class="nav__name">Besh tashabbus</span>
             </a>
         </li>
-        <li class="nav__item">
-            <a href="{% url 'task_list' %}" class="nav-link ">
-                <i class='bx bx-message-square-detail nav__icon'></i>
-                <span class="nav__name">Xarbiy vatanparvarlik</span>
+        <li class="nav__item dropdown" >
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                <i class="bx bx-duplicate nav__icon"></i>
+              Xarbiy vatanparvarlik
             </a>
+            <div class="dropdown-menu">
+                <a href="{% url 'user_profile' %}" class="nav-link ">
+                    <span class="nav__name">Qalqon guruhining ro'yxati</span>
+                </a>
+                <a href="{% url 'user_profile' %}" class="nav-link ">
+                    <span class="nav__name">Qalqon guruhiga ro'yxatga olish</span>
+                </a>
+                <a href="{% url 'user_profile' %}" class="nav-link ">
+                    <span class="nav__name">Tavsiyanoma asosidagilar</span>
+                </a>
+                <a href="{% url 'user_profile' %}" class="nav-link ">
+                    <span class="nav__name">35% lik to‘lov kontrakt</span>
+                </a>
+            </div>
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-              <i class='bx bx-user-plus nav__icon'></i>
-              Talbalar
+                <i class="bx bx-user nav__icon"></i>
+              Talabalar
             </a>
             <div class="dropdown-menu">
               <a href="{% url 'user_profile' %}" class="nav-link ">
-                  <i class='bx bx-user nav__icon '></i>
-                  <span class="nav__name">Shaxsiy profil</span>
+                  <span class="nav__name">Iqtidorli talabalar</span>
               </a>
               <a href="{% url 'password_change' %}" class="nav-link ">
-                  <i class='bx bx-lock-alt nav-icon'></i>
-                  <span class="nav-name">Parolni yangilash</span>
+                  
+                  <span class="nav-name">Toifadagi talablar</span>
               </a>
               <a href="{% url 'update_kordinator_profile' %}" class="nav-link ">
-                  <i class='bx bx-briefcase-alt nav-icon'></i>
-                  <span class="nav-name">Profilni taxrirlash</span>
+                  
+                  <span class="nav-name">Iqtidorli talablarni kritish</span>
+              </a>
+              <a href="{% url 'update_kordinator_profile' %}" class="nav-link ">
+                <span class="nav-name">Yashil toifadagi talablarni kritish</span>
+              </a>
+              <a href="{% url 'update_kordinator_profile' %}" class="nav-link ">
+                <span class="nav-name">Sariq toifadagi talablarni kritish</span>
+              </a>
+              <a href="{% url 'update_kordinator_profile' %}" class="nav-link ">
+                <span class="nav-name">Qizil toifadagi talablarni kritish</span>
               </a>
             </div>
           </li>
