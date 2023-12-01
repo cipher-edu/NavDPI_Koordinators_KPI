@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect,get_object_or_404,HttpResponseRedirect
 from .forms import *
 from django.contrib.auth.decorators import login_required 
 from django.contrib import messages
@@ -16,7 +16,6 @@ from django.core.paginator import PageNotAnInteger
 from django.utils import timezone
 from django.db.models import Count
 from django.core.exceptions import ValidationError
-from django.http import HttpResponse
 @login_required
 def home(request):
     user = request.user
@@ -61,7 +60,7 @@ def user_login(request):
         }
     return render(request, 'registration/login.html', context)
 
-
+@login_required
 def dashboard(request):
     user = request.user
     conetxt = {
@@ -74,7 +73,7 @@ class SingUpView(CreateView):
     success_url = reverse_lazy('login')
     template_name = 'registration/register.html'
 
-
+@login_required
 def kordinators_list(request):
     kordinators = Kordinators.objects.all()
     return render(request, 'kordinators_list.html', {'kordinators': kordinators})
@@ -308,3 +307,15 @@ def receive_task(request, task_id):
     task.save()
 
     return redirect('task_list')  
+
+@login_required
+def create_task(request):
+    if request.method == 'POST':
+        form = TaskForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')  # Redirect to a suitable URL after saving the form
+    else:
+        form = TaskForm()
+    
+    return render(request, 'task_add.html', {'form': form})

@@ -25,6 +25,7 @@ urlpatterns = [
     #path('task/<uuid:task_id>/', task_detail, name='task_detail'),
     path('tasks/complete/<uuid:task_id>/', task_completion, name='task_completion'),
     path('send-task/', send_task, name='send_task'),
+    path('add-task/', create_task, name='add_task')
     
     
 ]

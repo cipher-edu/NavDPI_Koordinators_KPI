@@ -3,31 +3,39 @@
 
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">CIPHER-CRM</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-       
-        <li class="nav__item">
-            <a href="{% url 'home' %}" class="nav-link ">
-                <i class='bx bx-home-alt nav__icon'></i>
-                <span class="nav-name">Home</span>
-            </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a href="{% url 'home' %}" class="nav-link">
+          <span class="nav-name">Bosh sahifa</span>
+        </a>
+      </li>
         </li>
-        <li class="nav__item">
-            <a href="{% url 'task_list' %}" class="nav-link ">
-                <i class='bx bx-message-square-detail nav__icon'></i>
-                <span class="nav__name">Vazifalar</span>
+        <li class="nav__item dropdown" >
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+              Topshiriqlar
             </a>
+            <div class="dropdown-menu">
+                <a href="{% url 'task_list' %}" class="nav-link ">
+                    <span class="nav__name">Vazifalar</span>
+                </a>
+                <a href="{% url 'user_profile' %}" class="nav-link ">
+                    <span class="nav__name">Qalqon guruhiga ro'yxatga olish</span>
+                </a>
+                <a href="{% url 'user_profile' %}" class="nav-link ">
+                    <span class="nav__name">Tavsiyanoma asosidagilar</span>
+                </a>
+                <a href="{% url 'user_profile' %}" class="nav-link ">
+                    <span class="nav__name">35% lik to‘lov kontrakt</span>
+                </a>
+            </div>
         </li>
-
         {% if user.is_staff %}
                         <li class="nav__item">
-            <a href="https://crm.cipher-edu.uz/cipher-admin/app/task/add/" class="nav-link ">
-                <i class='bx bx-folder-plus nav__icon'></i>
+            <a href="{% url 'add_task' %}" class="nav-link ">
                 <span class="nav__name">Yangi vazifa qo'shish</span>
             </a>
         </li>
@@ -35,19 +43,16 @@
         {% endif %}
         <li class="nav__item">
             <a href="{% url 'send_task' %}" class="nav-link ">
-                <i class='bx bx-duplicate nav__icon'></i>
                 <span class="nav__name">Shaxsiy ishlar</span>
             </a>
         </li>
         <li class="nav__item">
             <a href="{% url 'task_list' %}" class="nav-link ">
-                <i class='bx bx-message-square-detail nav__icon'></i>
                 <span class="nav__name">Besh tashabbus</span>
             </a>
         </li>
         <li class="nav__item dropdown" >
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                <i class="bx bx-duplicate nav__icon"></i>
               Xarbiy vatanparvarlik
             </a>
             <div class="dropdown-menu">
@@ -67,7 +72,6 @@
         </li>
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-                <i class="bx bx-user nav__icon"></i>
               Talabalar
             </a>
             <div class="dropdown-menu">
@@ -95,27 +99,22 @@
           </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
-            <i class='bx bx-coffee nav__icon'></i>
             Profile
           </a>
           <div class="dropdown-menu">
             <a href="{% url 'user_profile' %}" class="nav-link ">
-                <i class='bx bx-user nav__icon '></i>
                 <span class="nav__name">Shaxsiy profil</span>
             </a>
             <a href="{% url 'password_change' %}" class="nav-link ">
-                <i class='bx bx-lock-alt nav-icon'></i>
                 <span class="nav-name">Parolni yangilash</span>
             </a>
             <a href="{% url 'update_kordinator_profile' %}" class="nav-link ">
-                <i class='bx bx-briefcase-alt nav-icon'></i>
                 <span class="nav-name">Profilni taxrirlash</span>
             </a>
           </div>
         </li>
         <li class="nav__item">
             <a href="{% url 'logout' %}" class="nav-link ">
-                <i class='bx bx-lock nav__icon'></i>
                 <span class="nav__name">chiqish</span>
             </a>
         </li>

@@ -4,6 +4,10 @@ class LoginForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model = Task
+        fields = '__all__'
 class KordinatorsForm(forms.ModelForm):
     class Meta:
         model = Kordinators
@@ -25,15 +29,15 @@ class KordinatorsForm(forms.ModelForm):
         }
 class TaskCompletionForm(forms.Form):
     title = forms.CharField(
-        label='Completion Title',
+        label='Topshiriq sarlavhasi',
         max_length=100,
-        widget=forms.TextInput(attrs={'class': 'form-control'}),
+        widget=forms.TextInput(attrs={'class': 'form-control col-md-4'}),
     )
     description = forms.CharField(
-        label='Completion Description',
-        widget=forms.Textarea(attrs={'class': 'form-control'}),
+        label='Topshiriq haqida',
+        widget=forms.Textarea(attrs={'class': 'form-control col-md-4'}),
     )
     completed_file = forms.FileField(
-        label='Attach Completed File (optional)',
+        label='Topshirirqning bayonnomasi (jpg, pdf, word, excel)',
         required=False,
     )
