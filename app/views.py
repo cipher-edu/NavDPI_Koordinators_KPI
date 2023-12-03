@@ -16,7 +16,8 @@ from django.core.paginator import PageNotAnInteger
 from django.utils import timezone
 from django.db.models import Count
 from collections import defaultdict
-
+def handler404(request, exception):
+    return render(request, '404.html', status=404)
 @login_required
 def home(request):
     user = request.user
@@ -40,6 +41,7 @@ def home(request):
     return render(request, 'glavni.html', context)
 
 # statistika start
+@login_required
 def stats(request):
     user = request.user
     sent_tasks = AddWork.objects.filter(sender=user)
