@@ -1,0 +1,74 @@
+<h2>Completed Tasks</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Topshiriq muddati</th>
+            <!-- Add other task information headers as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for user, tasks in completed_by_user.items %}
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ user }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.completion_date }}</td>
+                    <!-- Add other task information cells as needed -->
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Late Tasks</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Title</th>
+            <th>Description</th>
+            <!-- Add other task information headers as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for user, tasks in late_by_user.items %}
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ user }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.completion_date }}</td>
+                    <!-- Add other task information cells as needed -->
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2>Not Completed Tasks</h2>
+<table border="1">
+    <thead>
+        <tr>
+            <th>User</th>
+            <th>Title</th>
+            <th>Description</th>
+            <!-- Add other task information headers as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for user, tasks in not_completed_by_user.items %}
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ user }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <!-- Add other task information cells as needed -->
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>

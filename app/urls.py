@@ -21,11 +21,13 @@ urlpatterns = [
     path('update_kordinator_profile/', update_kordinator_profile, name='update_kordinator_profile'),
     path('tasks/', task_list, name='task_list'),
     path('tasks/assign/<uuid:task_id>/', assign_task, name='assign_task'),
-    path('tasks/mark-received/<uuid:task_id>/',mark_task_received, name='mark_task_received'), #vazifani qabul qilib olganligi haqida url
+    #path('tasks/mark-received/<uuid:task_id>/',mark_task_received, name='mark_task_received'), #vazifani qabul qilib olganligi haqida url
     #path('task/<uuid:task_id>/', task_detail, name='task_detail'),
     path('tasks/complete/<uuid:task_id>/', task_completion, name='task_completion'),
     path('send-task/', send_task, name='send_task'),
-    path('add-task/', create_task, name='add_task')
+    path('add-task/', create_task, name='add_task'),
+    path('statistics/', stats, name='stats'),
+    path('complations/', task_completion_status, name='complation')
     
     
 ]

@@ -22,15 +22,21 @@
                 <a href="{% url 'task_list' %}" class="nav-link ">
                     <span class="nav__name">Vazifalar</span>
                 </a>
-                <a href="{% url 'user_profile' %}" class="nav-link ">
+                <a href="{% url 'send_task' %}" class="nav-link ">
+                  <span class="nav__name">Shaxsiy ishlar</span>
+              </a>
+              <a href="{% url 'stats' %}" class="nav-link ">
+                <span class="nav__name">Statistik ma'lumotlar</span>
+            </a>
+                <!-- <a href="" class="nav-link ">
                     <span class="nav__name">Qalqon guruhiga ro'yxatga olish</span>
                 </a>
-                <a href="{% url 'user_profile' %}" class="nav-link ">
+                <a href="" class="nav-link ">
                     <span class="nav__name">Tavsiyanoma asosidagilar</span>
                 </a>
-                <a href="{% url 'user_profile' %}" class="nav-link ">
+                <a href="" class="nav-link ">
                     <span class="nav__name">35% lik to‘lov kontrakt</span>
-                </a>
+                </a> -->
             </div>
         </li>
         {% if user.is_staff %}
@@ -41,31 +47,43 @@
         </li>
                  
         {% endif %}
-        <li class="nav__item">
-            <a href="{% url 'send_task' %}" class="nav-link ">
-                <span class="nav__name">Shaxsiy ishlar</span>
+        <li class="nav__item dropdown" >
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+           Loyihalar
+          </a>
+          <div class="dropdown-menu">
+            <a href="" class="nav-link ">
+                <span class="nav__name">Besh tashabbus loyihalari</span>
             </a>
-        </li>
-        <li class="nav__item">
-            <a href="{% url 'task_list' %}" class="nav-link ">
-                <span class="nav__name">Besh tashabbus</span>
+            <a href="" class="nav-link ">
+              <span class="nav__name">Besh tashabbus loyihalarini qo'shish</span>
             </a>
+            <a href="" class="nav-link ">
+              <span class="nav__name">Zakovat o'yinlari</span>
+            </a>
+            <a href="" class="nav-link ">
+              <span class="nav__name">Zakovat o'yinlari qo'shish</span>
+            </a>
+            </div>
         </li>
         <li class="nav__item dropdown" >
             <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
               Xarbiy vatanparvarlik
             </a>
             <div class="dropdown-menu">
-                <a href="{% url 'user_profile' %}" class="nav-link ">
+              <a href="" class="nav-link ">
+                <span class="nav__name">Fakultet xarbiy vatanparvarlik gruxlari</span>
+              </a>
+                <a href="" class="nav-link ">
                     <span class="nav__name">Qalqon guruhining ro'yxati</span>
                 </a>
-                <a href="{% url 'user_profile' %}" class="nav-link ">
+                <a href="" class="nav-link ">
                     <span class="nav__name">Qalqon guruhiga ro'yxatga olish</span>
                 </a>
-                <a href="{% url 'user_profile' %}" class="nav-link ">
+                <a href="" class="nav-link ">
                     <span class="nav__name">Tavsiyanoma asosidagilar</span>
                 </a>
-                <a href="{% url 'user_profile' %}" class="nav-link ">
+                <a href="" class="nav-link ">
                     <span class="nav__name">35% lik to‘lov kontrakt</span>
                 </a>
             </div>

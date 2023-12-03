@@ -100,7 +100,7 @@ class Task(models.Model):
     coordinators = models.ManyToManyField(Kordinators, blank=True, verbose_name='Assigned Coordinators')
     task_file = models.FileField(upload_to='topshiriqlar/', null=True, blank=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    received_by = models.ManyToManyField(Kordinators, blank=True, related_name='received_tasks', verbose_name='Received by Coordinators')
+    #received_by = models.ManyToManyField(Kordinators, blank=True, related_name='received_tasks', verbose_name='Received by Coordinators')
     completed = models.BooleanField(default=False, verbose_name='Task Completed')
 
     def mark_as_received(self, coordinator):
@@ -119,11 +119,11 @@ class Task(models.Model):
                 self.completed = True
                 self.save()
 
-    def is_received_by(self, coordinator):
-        """
-        Check if the task is received by a specific coordinator.
-        """
-        return coordinator in self.received_by.all()
+    # def is_received_by(self, coordinator):
+    #     """
+    #     Check if the task is received by a specific coordinator.
+    #     """
+    #     return coordinator in self.received_by.all()
 
     def mark_as_completed(self):
         """
@@ -147,19 +147,19 @@ class TaskCompletion(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField()
     completed_file = models.FileField(upload_to='completed_tasks/', blank=True, null=True)
-    is_late_submission = models.BooleanField(default=False, verbose_name='Is Late Submission')
-    completed = models.BooleanField(default=False, verbose_name='Task Completed')  # Add this line
+    is_late_submission = models.BooleanField(default=False, verbose_name='Vazifa kechikib yuborilgan')
+    completed = models.BooleanField(default=False, verbose_name='Vazifa yakunlangan')  # Add this line
 
     # Existing methods
 
     def __str__(self):
-        return f"Task Completion for {self.task.task_name} by {self.coordinator.name}"
+        return f"Vazifa yakunlangan {self.task.task_name} koordinator ismi {self.coordinator.name}"
     
     def save(self, *args, **kwargs):
         # Mark the associated task as received and completed when a TaskCompletion is created
         if not self.completed:
-            self.completed = True
-            self.task.mark_as_received(self.coordinator)
+            self.completed = False
+            #self.task.mark_as_received(self.coordinator)
         super(TaskCompletion, self).save(*args, **kwargs)
 
 

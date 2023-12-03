@@ -1,0 +1,224 @@
+{% load static  %}
+<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <!--=============== BOXICONS ===============-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
+        <!--=============== CSS ===============-->
+       
+              <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> <!-- Body font -->
+            <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <title>KPI - Navoiy Davlat pedagokika instituti koordinatorlari uchun</title>
+
+
+    </head>
+    <body>
+{% include 'base/navbar.html' %}
+
+<script src="{% static 'assets/js/index.js' %}"></script>
+
+        <main>
+            <!--=============== HOME ===============-->
+            <section class="container section section__height" >
+              <center>
+                
+                <h2>
+                  Yuklangan vazifalarning ijrosi % larda ko'rsatgichi
+                </h2>
+               </center>
+               <div id="chartdiv"></div>
+              
+              <br><br><br>
+              <center><h2>Vazifalarni muvofaqiyatili tamomlaganlar</h2></center>
+              <br><br>
+<table class="table" border="1">
+    <thead class="thead-dark">
+        <tr>
+            <th>Koordinator</th>
+            <th>Yuborilgan vazifa sarlavhasi</th>
+            <th>Yuborilgan vazifaning mazmuni qisqacha</th>
+            <th>Yuborilgan vazifaning vaqti</th>
+            <th>
+            Vazifa Uchun Briktitirlgan Fayl
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user, tasks in completed_by_user.items %}
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ user }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.completion_date }}</td>
+                    {% if task.completed_file %}
+                      <td>
+                          <a href="{{ task.completed_file.url }}" target="_blank" download>Vazifa uchun beriktirilgan fayl</a>
+                      </td>
+                  {% else %}
+                      <td>
+                          Ushbu vazifa uchun fayl biriktirilmagan
+                      </td>
+                  {% endif %}
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+<center><h2>Vazifalarni kechiktirib yuborganlar</h2></center>
+<table class="table" border="1">
+    <thead class="thead-dark">
+        <tr>
+          <th>Koordinator</th>
+          <th>Yuborilgan vazifa sarlavhasi</th>
+          <th>Yuborilgan vazifaning mazmuni qisqacha</th>
+          <th>Yuborilgan vazifaning vaqti</th>
+          <th>
+          Vazifa Uchun Briktitirlgan Fayl
+          </th>
+            <!-- Add other task information headers as needed -->
+        </tr>
+    </thead>
+    <tbody>
+        {% for user, tasks in late_by_user.items %}
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ user }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.completion_date }}</td>
+                    {% if task.completed_file %}
+                      <td>
+                        <a href="{{ task.completed_file.url }}" target="_blank" download>Vazifa uchun beriktirilgan fayl</a>
+                      </td>
+                  {% else %}
+                      <td>
+                          Ushbu vazifa uchun fayl biriktirilmagan
+                      </td>
+                  {% endif %}
+                    <!-- Add other task information cells as needed -->
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </tbody>
+</table>
+<br><br>
+<center><h2>Tasdiq olmagan vazifalar</h2></center>
+<table class="table" border="1">
+    <thead class="thead-dark">
+        <tr>
+          <th>Koordinator</th>
+          <th>Yuborilgan vazifa sarlavhasi</th>
+          <th>Yuborilgan vazifaning mazmuni qisqacha</th>
+          <th>Yuborilgan vazifaning vaqti</th>
+          <th>
+          Vazifa Uchun Briktitirlgan Fayl
+          </th>
+            <!-- Add other task information headers as needed -->
+        </tr>
+    </thead>
+    <tbody>
+      {% for user, tasks in not_completed_by_user.items %}
+          {% for task in tasks %}
+              <tr>
+                  <td>{{ user }}</td>
+                  <td>{{ task.title }}</td>
+                  <td>{{ task.description }}</td>
+                  <td>{{ task.completion_date }}</td>
+                  <!-- Link to download the completed_file if it exists -->
+                  {% if task.completed_file %}
+                      <td>
+                          <a href="{{ task.completed_file.url }} " target="_blank" download>Vazifa uchun beriktirilgan fayl</a>
+                      </td>
+                  {% else %}
+                      <td>
+                          Ushbu vazifa uchun fayl biriktirilmagan
+                      </td>
+                  {% endif %}
+              </tr>
+          {% endfor %}
+      {% endfor %}
+  </tbody>
+  
+</table>
+<br><br>
+
+</section>
+        </main>
+        
+
+<style>
+  #chartdiv {
+    width: 100%;
+    height: 500px;
+  }
+  </style>
+  
+  <!-- Resources -->
+  <script src="https://cdn.amcharts.com/lib/5/index.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/percent.js"></script>
+  <script src="https://cdn.amcharts.com/lib/5/themes/Animated.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
+  <!-- Chart code -->
+  <script>
+  am5.ready(function() {
+  
+  // Create root element
+  // https://www.amcharts.com/docs/v5/getting-started/#Root_element
+  var root = am5.Root.new("chartdiv");
+  
+  
+  // Set themes
+  // https://www.amcharts.com/docs/v5/concepts/themes/
+  root.setThemes([
+    am5themes_Animated.new(root)
+  ]);
+  
+  
+  // Create chart
+  // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/
+  var chart = root.container.children.push(am5percent.PieChart.new(root, {
+    layout: root.verticalLayout
+  }));
+  
+  
+  // Create series
+  // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
+  var series = chart.series.push(am5percent.PieSeries.new(root, {
+    valueField: "value",
+    categoryField: "category"
+  }));
+  
+
+  series.data.setAll([{% for coordinator in coordinators %}
+    { value: {{ coordinator.num_completed_tasks }}, category: "{{ coordinator.name }}" },{% endfor %}
+  ]);
+  
+  var legend = chart.children.push(am5.Legend.new(root, {
+    centerX: am5.percent(50),
+    x: am5.percent(50),
+    marginTop: 15,
+    marginBottom: 15
+  }));
+  
+  legend.data.setAll(series.dataItems);
+  
+  series.appear(1000, 100);
+  
+  }); // end am5.ready()
+  </script>
+  
+</body>
+</html>
