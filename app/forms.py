@@ -5,9 +5,25 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 class TaskForm(forms.ModelForm):
+    coordinators = forms.ModelMultipleChoiceField(
+        queryset=Kordinators.objects.all(), 
+        widget=forms.SelectMultiple(attrs={'class': 'select2-selection select2-selection--multiple form-control col-md-6 mb-6'}),
+        required=False  
+    )
+    completed = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'})
+    )
     class Meta:
         model = Task
         fields = '__all__'
+        widgets = {
+            'task_name': forms.TextInput(attrs={'class': 'form-control col-md-6 mb-6'}),
+            'task_body': forms.Textarea(attrs={'class': 'form-control col-md-6 mb-6'}),
+            'task_date': forms.DateInput(attrs={'type': 'datetime-local', 'class': 'form-control col-md-6 mb-6'}),
+            'task_and_date': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control col-md-6 mb-6'}),
+        }
+
+
 class KordinatorsForm(forms.ModelForm):
     class Meta:
         model = Kordinators

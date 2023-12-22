@@ -8,9 +8,21 @@
         <!--=============== BOXICONS ===============-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 
+        <!--=============== BOXICONS ===============-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+
         <!--=============== CSS ===============-->
        
               <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+            <link rel="preconnect" href="https://fonts.gstatic.com">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+            <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet"> <!-- Body font -->
+            <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@200;300;400;500;600;700;900&display=swap" rel="stylesheet">
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+            <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
             <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -33,7 +45,7 @@
   <div class="col-md-3">
     <div class="card-counter primary">
       <i class="fa fa-code-fork"></i>
-      <span class="count-numbers">12</span>
+      <span class="count-numbers">{{ total_tasks_count }}</span>
       <span class="count-name">Vazifalar soni</span>
     </div>
   </div>
@@ -41,7 +53,7 @@
   <div class="col-md-3">
     <div class="card-counter danger">
       <i class="fa fa-ticket"></i>
-      <span class="count-numbers">599</span>
+      <span class="count-numbers">{{ nocompleted_tasks_count }}</span>
       <span class="count-name">Bajarilmagn vazifalar</span>
     </div>
   </div>
@@ -49,7 +61,7 @@
   <div class="col-md-3">
     <div class="card-counter success">
       <i class="fa fa-database"></i>
-      <span class="count-numbers">6875</span>
+      <span class="count-numbers">{{ completed_tasks_count }}</span>
       <span class="count-name">Tamomlangan vazifalar</span>
     </div>
   </div>
@@ -57,7 +69,7 @@
   <div class="col-md-3">
     <div class="card-counter info">
       <i class="fa fa-users"></i>
-      <span class="count-numbers">35</span>
+      <span class="count-numbers">{{total_koordinator}}</span>
       <span class="count-name">Foydalanuvchilar</span>
     </div>
   </div>

@@ -69,7 +69,10 @@ class Kordinators(models.Model):
     telegram = models.CharField(max_length=250, verbose_name='Telegram link')
     mail = models.CharField(max_length=250, verbose_name='Mail')
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
+    
+    @classmethod
+    def total_koordinator(cls):
+        return cls.objects.count()
     
     def __str__(self):
 
@@ -97,28 +100,37 @@ class Task(models.Model):
     task_body = models.TextField(verbose_name='Topshiriq Mazmuni')
     task_date = models.DateTimeField(auto_now=False, verbose_name='Topshiriq yuklangan vaqt')
     task_and_date = models.DateTimeField(auto_now=False, verbose_name='Topshiriq tugash vaqti')
-    coordinators = models.ManyToManyField(Kordinators, blank=True, verbose_name='Assigned Coordinators')
+    coordinators = models.ManyToManyField(Kordinators, blank=True, verbose_name='Koordinatorlani tanlash')
     task_file = models.FileField(upload_to='topshiriqlar/', null=True, blank=True)
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     #received_by = models.ManyToManyField(Kordinators, blank=True, related_name='received_tasks', verbose_name='Received by Coordinators')
-    completed = models.BooleanField(default=False, verbose_name='Task Completed')
-
+    completed = models.BooleanField(default=False, null=True,verbose_name='vazifalalrning qabul qilinish holati')
+    
+    @classmethod
+    def total_tasks(cls):
+        return cls.objects.count()
+    
+    @classmethod
+    def completed_tasks_count(cls):
+        return cls.objects.filter(completed=True).count()
+    
+    @classmethod
+    def nocompleted_tasks_count(cls):
+        return cls.objects.filter(completed=False).count()
+    
     def mark_as_received(self, coordinator):
             """
             Marks the task as received by a coordinator.
             """
             if coordinator not in self.coordinators.all():
-                # Check if the coordinator is one of the assigned coordinators for this task.
                 return
 
             if coordinator not in self.received_by.all():
-                # Check if the coordinator has not already marked the task as received.
                 self.received_by.add(coordinator)
                 
-                # Also, set the task as completed when received via TaskCompletion
                 self.completed = True
                 self.save()
-
+        
     # def is_received_by(self, coordinator):
     #     """
     #     Check if the task is received by a specific coordinator.

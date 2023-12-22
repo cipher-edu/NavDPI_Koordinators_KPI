@@ -32,8 +32,15 @@ def home(request):
     coordinators = Kordinators.objects.annotate(
         num_completed_tasks=Count('taskcompletion')
     )
-    
+    total_koordinator = Kordinators.total_koordinator()
+    total_tasks_count = Task.total_tasks()
+    completed_tasks_count = Task.completed_tasks_count()
+    nocompleted_tasks_count=Task.nocompleted_tasks_count()
     context = {
+        'total_koordinator':total_koordinator,
+        'nocompleted_tasks_count':nocompleted_tasks_count,
+        'completed_tasks_count':completed_tasks_count,
+        'total_tasks_count':total_tasks_count,
         'coordinators': coordinators,
         'sent_tasks': sent_tasks,  # Add the sent tasks to the context
     }
@@ -217,7 +224,7 @@ def task_list(request):
 
         task_data.append({'task': task, 'completed': completed, 'is_late_submission': is_late_submission})
 
-    tasks_per_page = 10
+    tasks_per_page = 5
 
     paginator = Paginator(task_data, tasks_per_page)
     page = request.GET.get('page')
