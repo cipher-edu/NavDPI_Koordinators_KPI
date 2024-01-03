@@ -15,7 +15,7 @@ from django.core.paginator import EmptyPage
 from django.core.paginator import PageNotAnInteger
 from django.utils import timezone
 from django.db.models import Count
-from collections import defaultdict
+from django.views.generic.edit import FormView, UpdateView, DeleteView
 def handler404(request, exception):
     return render(request, '404.html', status=404)
 @login_required
@@ -324,3 +324,38 @@ def create_task(request):
         form = TaskForm()
     
     return render(request, 'task_add.html', {'form': form})
+
+
+@login_required
+def save_qalqon_info(request):
+    if request.method == 'POST':
+        form = QalqonForm(request.POST)
+        if form.is_valid():
+            kordinator = Kordinators.objects.get(user=request.user)
+            qalqon = form.save(commit=False)
+            qalqon.kordinator = kordinator  # Assuming the field name is 'kordinator'
+            qalqon.save()
+            return redirect('qalqon')
+    else:
+        form = QalqonForm()
+
+    filtered_data = Qalqon.objects.all()
+    boys, girls = Qalqon.count_boys_girls()
+    context = {
+        'form': form,
+        'filtered_data': filtered_data,
+        'total_boys': boys,
+        'total_girls': girls
+        }
+    return render(request, 'qalqon_form.html', context)
+
+class QalqonDeleteView(DeleteView):
+    model = Qalqon
+    template_name = 'qalqon_confirm_delete.html'  
+    success_url = reverse_lazy('qalqon')
+
+class QalqonUpdateView(UpdateView):
+    model = Qalqon
+    form_class = QalqonForm
+    template_name = 'qalqon_edit.html'
+    success_url = reverse_lazy('qalqon')

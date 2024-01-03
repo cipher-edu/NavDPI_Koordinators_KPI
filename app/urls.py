@@ -27,7 +27,12 @@ urlpatterns = [
     path('send-task/', send_task, name='send_task'),
     path('add-task/', create_task, name='add_task'),
     path('statistics/', stats, name='stats'),
-    path('complations/', task_completion_status, name='complation')
+    path('complations/', task_completion_status, name='complation'),
+    path('qalqon/', save_qalqon_info, name='qalqon'),
+    # path('qalqon/', QalqonModalView.as_view(), name='qalqon_modal'),
+    path('qalqon/<int:pk>/edit/', QalqonUpdateView.as_view(), name='qalqon_edit'),
+    path('qalqon/4364c33-f553-4ea4cliaent?TabLinkquery/<int:pk>/?&&926f-d0bf8668f914&delete?cliaent?/query/', QalqonDeleteView.as_view(), name='qalqon_delete'),
+
     
     
 ]

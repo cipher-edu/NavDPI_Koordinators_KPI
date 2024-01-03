@@ -57,3 +57,14 @@ class TaskCompletionForm(forms.Form):
         label='Topshirirqning bayonnomasi (jpg, pdf, word, excel)',
         required=False,
     )
+
+class QalqonForm(forms.ModelForm):
+    class Meta:
+        model = Qalqon
+        fields = '__all__'
+        widgets = {
+            'fakultet': forms.Select(attrs={'class':'form-control col-md-12 mb-12'}),
+            'yigit_jamoa_soni':forms.NumberInput(attrs={'class':'form-control col-md-12 mb-12'}),
+            'qiz_jamoa_soni':forms.NumberInput(attrs={'class':'form-control col-md-12 mb-12'}),
+            'all_stat_file':forms.FileInput(attrs={'class':'form-control', 'placeholder': 'agar mavjud bo\'lsa'}),
+            }

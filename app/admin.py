@@ -14,3 +14,4 @@ class CompLationAdmin(admin.ModelAdmin):
     list_filter = ('coordinator',)
 admin.site.register(TaskCompletion,CompLationAdmin)
 admin.site.register(AddWork)
+admin.site.register(Qalqon)

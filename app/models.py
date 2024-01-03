@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin, User
 from django.db import models
 import uuid
+from django.db.models import Sum
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db.models.signals import post_save
@@ -9,7 +10,11 @@ def validate_image_size(value):
     limit = 2 * 1024 * 1024  # 2 MB in bytes
     if value.size > limit:
         raise ValidationError('File size too large. Max size is 2 MB.')
-
+besh_tashabbus = [
+    ('Yosh kitobxon', 'Yosh kitobxon'),
+    ('Quvnoqlar va zukkolar', 'Quvnoqlar va zukkolar'),
+    ()
+]
 fakultets = [
         ('Metematika - Informatika', 'Matematika - Informatika'),
         ('Fizika', 'Fizika'),
@@ -183,3 +188,29 @@ class AddWork(models.Model):
     accepted = models.BooleanField(default=False)
     def __str__(self):
         return self.title
+    
+# class BeshTashabbus(models.Model):
+#     fakultet = models.CharField(max_length=255, choices=fakultets, verbose_name='Fakultetni tanlang')
+
+
+class Qalqon(models.Model):
+    fakultet = models.CharField(max_length=255, choices=fakultets, verbose_name='Fakultetni tanlang')
+    yigit_jamoa_soni = models.IntegerField(verbose_name='Yigit bolalar soni')
+    qiz_jamoa_soni = models.IntegerField(verbose_name='Qiz bolalar soni')
+    all_stat_file = models.FileField(upload_to='beshtashabbus/', verbose_name='Faylni briktiring mavjud bo\'lsa', null=True, blank=True)
+    # user = models.ForeignKey(Kordinators, on_delete=models.CASCADE)  # Establishing a relationship with Kordinators
+
+    # def save(self, *args, **kwargs):
+    #     if not self.pk and self.user:  
+    #         self.fakultet = f"{self.user.name}'s Entry - {self.fakultet}"
+        
+    #     super().save(*args, **kwargs)
+    @classmethod
+    def count_boys_girls(cls):
+        total_boys = cls.objects.aggregate(Sum('yigit_jamoa_soni'))['yigit_jamoa_soni__sum'] or 0
+        total_girls = cls.objects.aggregate(Sum('qiz_jamoa_soni'))['qiz_jamoa_soni__sum'] or 0
+        return total_boys, total_girls
+    
+    class Meta:
+        verbose_name = 'Qalqon'
+        verbose_name_plural = 'Qalqon jamoasining ro\'yxati'

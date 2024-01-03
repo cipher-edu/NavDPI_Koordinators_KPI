@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-@cr3g&7=g_d)x*@b%p=_==n*tt_#f&v+eazo3mlji21cr$6vpd'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['crm.cipher-edu.uz', 'www.crm.cipher-edu.uz', '127.0.0.1']
 
