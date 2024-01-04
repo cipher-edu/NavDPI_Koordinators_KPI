@@ -329,7 +329,7 @@ def create_task(request):
 @login_required
 def save_qalqon_info(request):
     if request.method == 'POST':
-        form = QalqonForm(request.POST)
+        form = QalqonForm(request.POST, request.FILES)  # Pass request.FILES for file uploads
         if form.is_valid():
             kordinator = Kordinators.objects.get(user=request.user)
             qalqon = form.save(commit=False)
@@ -346,7 +346,7 @@ def save_qalqon_info(request):
         'filtered_data': filtered_data,
         'total_boys': boys,
         'total_girls': girls
-        }
+    }
     return render(request, 'qalqon_form.html', context)
 
 class QalqonDeleteView(DeleteView):
@@ -359,3 +359,74 @@ class QalqonUpdateView(UpdateView):
     form_class = QalqonForm
     template_name = 'qalqon_edit.html'
     success_url = reverse_lazy('qalqon')
+
+@login_required
+def save_qalqon_info(request):
+    if request.method == 'POST':
+        form = TavsiyanomaForm(request.POST, request.FILES)  # Pass request.FILES for file uploads
+        if form.is_valid():
+            kordinator = Kordinators.objects.get(user=request.user)
+            qalqon = form.save(commit=False)
+            qalqon.kordinator = kordinator  # Assuming the field name is 'kordinator'
+            qalqon.save()
+            return redirect('qalqon')
+    else:
+        form = TavsiyanomaForm()
+
+    filtered_data = Tavsiyanoma.objects.all()
+    boys, girls = Tavsiyanoma.count_boys_girls()
+    context = {
+        'form': form,
+        'filtered_data': filtered_data,
+        'total_boys': boys,
+        'total_girls': girls
+    }
+    return render(request, 'tavsiyanoma_form.html', context)
+
+class TavsiyanomaDeleteView(DeleteView):
+    model = Tavsiyanoma  # Update the model to Tavsiyanoma
+    template_name = 'tavsiyanoma_confirm_delete.html'  
+    success_url = reverse_lazy('tavsiyanoma')
+
+
+class TavsiyanomaUpdateView(UpdateView):
+    model = Tavsiyanoma
+    form_class = QalqonForm
+    template_name = 'tavsiyanoma_edit.html'
+    success_url = reverse_lazy('tavsiyanoma')
+
+
+@login_required
+def save_qalqon_info(request):
+    if request.method == 'POST':
+        form = UttizbeshForm(request.POST, request.FILES)  # Pass request.FILES for file uploads
+        if form.is_valid():
+            kordinator = Kordinators.objects.get(user=request.user)
+            qalqon = form.save(commit=False)
+            qalqon.kordinator = kordinator  # Assuming the field name is 'kordinator'
+            qalqon.save()
+            return redirect('uttizbesh')
+    else:
+        form = UttizbeshForm()
+
+    filtered_data = Utizbeshfoiz.objects.all()
+    boys, girls = Utizbeshfoiz.count_boys_girls()
+    context = {
+        'form': form,
+        'filtered_data': filtered_data,
+        'total_boys': boys,
+        'total_girls': girls
+    }
+    return render(request, 'uttizbesh_form.html', context)
+
+class TavsiyanomaDeleteView(DeleteView):
+    model = Utizbeshfoiz  # Update the model to Tavsiyanoma
+    template_name = 'uttizbesh_confirm_delete.html'  
+    success_url = reverse_lazy('uttizbesh')
+
+
+class TavsiyanomaUpdateView(UpdateView):
+    model = Utizbeshfoiz
+    form_class = UttizbeshForm
+    template_name = 'uttizbesh_edit.html'
+    success_url = reverse_lazy('uttizbesh')

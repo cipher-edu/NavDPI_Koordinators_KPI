@@ -193,7 +193,7 @@
             </div>
             <div class="modal-body">
                 <!-- Your Qalqon form goes here -->
-                <form id="qalqonForm" method="post" action="">
+                <form id="qalqonForm" method="post" action="" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-primary">Save</button>
@@ -211,6 +211,9 @@
                 <th>Yigit Bolalar Soni</th>
                 <th>Qiz Bolalar Soni</th>
                 <th>
+                    Briktirilgan fayl
+                </th>
+                <th>
                     taxrirlash
                 </th>
                 <th>
@@ -225,7 +228,24 @@
                 <td>{{ data.fakultet }}</td>
                 <td>{{ data.yigit_jamoa_soni }}</td>
                 <td>{{ data.qiz_jamoa_soni }}</td>
-               
+                <td>
+                    {% if data.all_stat_file %}
+                    {% if data.all_stat_file.url %}
+                        <p class="status delivered">
+                            <a href="{{ data.all_stat_file.url }}" download>Tegishli faylni yuklash</a>
+                        </p>
+                        {% else %}
+                            <p class="status cancelled">
+                                Tegishli fayl mavjud emas
+                            </p>
+                    {% endif %}
+                    {% else %}
+                        <p class="status cancelled">
+                            Tegishli fayl mavjud emas
+                        </p>
+                    {% endif %}
+                
+                </td>
                     <td>
                         <a style="font-size: 18px; color: darkblue;" href="{% url 'qalqon_edit' pk=data.pk %}"><i class="fa fa-edit"></i></a>
                     </td>
@@ -233,6 +253,7 @@
                     <td>
                         <a style="font-size: 18px; color: red;" href="{% url 'qalqon_delete' pk=data.pk %}"><i class="fa fa-trash"></i></a>
                     </td>
+                    
                     {% endif %}
 
             </tr>

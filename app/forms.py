@@ -66,5 +66,27 @@ class QalqonForm(forms.ModelForm):
             'fakultet': forms.Select(attrs={'class':'form-control col-md-12 mb-12'}),
             'yigit_jamoa_soni':forms.NumberInput(attrs={'class':'form-control col-md-12 mb-12'}),
             'qiz_jamoa_soni':forms.NumberInput(attrs={'class':'form-control col-md-12 mb-12'}),
-            'all_stat_file':forms.FileInput(attrs={'class':'form-control', 'placeholder': 'agar mavjud bo\'lsa'}),
+            'all_stat_file':forms.FileInput(),
+            }
+        
+class TavsiyanomaForm(forms.ModelForm):
+    class Meta:
+        model = Tavsiyanoma
+        fields = '__all__'
+        widgets = {
+            'fakultet': forms.Select(attrs={'class':'form-control col-md-12 mb-12'}),
+            'yigit_jamoa_soni':forms.NumberInput(attrs={'class':'form-control col-md-12 mb-12'}),
+            'qiz_jamoa_soni':forms.NumberInput(attrs={'class':'form-control col-md-12 mb-12'}),
+            'all_stat_file':forms.FileInput(),
+            }
+        
+class UttizbeshForm(forms.ModelForm):
+    class Meta:
+        model = Utizbeshfoiz
+        fields = '__all__'
+        widgets = {
+            'fakultet': forms.Select(attrs={'class':'form-control col-md-12 mb-12'}),
+            'yigit_jamoa_soni':forms.NumberInput(attrs={'class':'form-control col-md-12 mb-12'}),
+            'qiz_jamoa_soni':forms.NumberInput(attrs={'class':'form-control col-md-12 mb-12'}),
+            'all_stat_file':forms.FileInput(),
             }

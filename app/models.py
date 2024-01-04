@@ -194,17 +194,11 @@ class AddWork(models.Model):
 
 
 class Qalqon(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     fakultet = models.CharField(max_length=255, choices=fakultets, verbose_name='Fakultetni tanlang')
     yigit_jamoa_soni = models.IntegerField(verbose_name='Yigit bolalar soni')
     qiz_jamoa_soni = models.IntegerField(verbose_name='Qiz bolalar soni')
-    all_stat_file = models.FileField(upload_to='beshtashabbus/', verbose_name='Faylni briktiring mavjud bo\'lsa', null=True, blank=True)
-    # user = models.ForeignKey(Kordinators, on_delete=models.CASCADE)  # Establishing a relationship with Kordinators
-
-    # def save(self, *args, **kwargs):
-    #     if not self.pk and self.user:  
-    #         self.fakultet = f"{self.user.name}'s Entry - {self.fakultet}"
-        
-    #     super().save(*args, **kwargs)
+    all_stat_file = models.FileField(upload_to='qalqon/', verbose_name='Faylni briktiring mavjud bo\'lsa', null=True, blank=True)
     @classmethod
     def count_boys_girls(cls):
         total_boys = cls.objects.aggregate(Sum('yigit_jamoa_soni'))['yigit_jamoa_soni__sum'] or 0
@@ -214,3 +208,34 @@ class Qalqon(models.Model):
     class Meta:
         verbose_name = 'Qalqon'
         verbose_name_plural = 'Qalqon jamoasining ro\'yxati'
+
+class Tavsiyanoma(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    fakultet = models.CharField(max_length=255, choices=fakultets, verbose_name='Fakultetni tanlang')
+    yigit_jamoa_soni = models.IntegerField(verbose_name='Yigit bolalar soni')
+    qiz_jamoa_soni = models.IntegerField(verbose_name='Qiz bolalar soni')
+    all_stat_file = models.FileField(upload_to='tavsiyanoma/', verbose_name='Faylni briktiring mavjud bo\'lsa', null=True, blank=True)
+    @classmethod
+    def count_boys_girls(cls):
+        total_boys = cls.objects.aggregate(Sum('yigit_jamoa_soni'))['yigit_jamoa_soni__sum'] or 0
+        total_girls = cls.objects.aggregate(Sum('qiz_jamoa_soni'))['qiz_jamoa_soni__sum'] or 0
+        return total_boys, total_girls
+    class Meta:
+        verbose_name = 'Tavsiya noma'
+        verbose_name_plural = 'Tavsiya noma asosida ta\'lim oluvchilar'
+
+
+class Utizbeshfoiz(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    fakultet = models.CharField(max_length=255, choices=fakultets, verbose_name='Fakultetni tanlang')
+    yigit_jamoa_soni = models.IntegerField(verbose_name='Yigit bolalar soni')
+    qiz_jamoa_soni = models.IntegerField(verbose_name='Qiz bolalar soni')
+    all_stat_file = models.FileField(upload_to='uttizbesh/', verbose_name='Faylni briktiring mavjud bo\'lsa', null=True, blank=True)
+    @classmethod
+    def count_boys_girls(cls):
+        total_boys = cls.objects.aggregate(Sum('yigit_jamoa_soni'))['yigit_jamoa_soni__sum'] or 0
+        total_girls = cls.objects.aggregate(Sum('qiz_jamoa_soni'))['qiz_jamoa_soni__sum'] or 0
+        return total_boys, total_girls
+    class Meta:
+        verbose_name = '35% lik'
+        verbose_name_plural = '35% lik kontrakt asosida ta\'lim oluvchilar'

@@ -30,8 +30,16 @@ urlpatterns = [
     path('complations/', task_completion_status, name='complation'),
     path('qalqon/', save_qalqon_info, name='qalqon'),
     # path('qalqon/', QalqonModalView.as_view(), name='qalqon_modal'),
-    path('qalqon/<int:pk>/edit/', QalqonUpdateView.as_view(), name='qalqon_edit'),
-    path('qalqon/4364c33-f553-4ea4cliaent?TabLinkquery/<int:pk>/?&&926f-d0bf8668f914&delete?cliaent?/query/', QalqonDeleteView.as_view(), name='qalqon_delete'),
+    path('qalqon/<uuid:pk>/edit/', QalqonUpdateView.as_view(), name='qalqon_edit'),
+    path('qalqon/<uuid:pk>/delete/', QalqonDeleteView.as_view(), name='qalqon_delete'),
+
+    path('tavsiyanoma/', save_qalqon_info, name='tavsiyanoma'),
+    path('tavsiyanoma/<uuid:pk>/edit/', TavsiyanomaUpdateView.as_view(), name='tavsiyanoma_edit'),
+    path('tavsiyanoma/<uuid:pk>/delete/', TavsiyanomaDeleteView.as_view(), name='tavsiyanoma_delete'),
+
+    path('35-foiz-kontark/', save_qalqon_info, name='uttizbesh'),
+    path('35-foiz-kontark/<uuid:pk>/edit/', TavsiyanomaUpdateView.as_view(), name='uttizbesh_edit'),
+    path('35-foiz-kontark/<uuid:pk>/delete/', TavsiyanomaDeleteView.as_view(), name='uttizbesh_delete'),
 
     
     
