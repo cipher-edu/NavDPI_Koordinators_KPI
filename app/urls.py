@@ -41,7 +41,10 @@ urlpatterns = [
     path('35-foiz-kontark/<uuid:pk>/edit/', TavsiyanomaUpdateView.as_view(), name='uttizbesh_edit'),
     path('35-foiz-kontark/<uuid:pk>/delete/', TavsiyanomaDeleteView.as_view(), name='uttizbesh_delete'),
 
-    
+    path('tasks/api/', TaskListCreateAPIView.as_view(), name='task-list-create'),
+    path('tasks/api/<uuid:pk>/', TaskRetrieveUpdateDestroyAPIView.as_view(), name='task-detail'),
+    path('all-tasks/api/', AllTasksAPIView.as_view(), name='all-tasks'),
+
     
 ]
 

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'core',
+    'rest_framework',
     'app',
     'widget_tweaks',
 ]
@@ -54,6 +55,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    # Other settings...
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+        'rest_framework.renderers.JSONRenderer',
+        # Add other renderers if needed
+    ],
+    # Other settings...
+}
+
+
+
+
 
 ROOT_URLCONF = 'KPI.urls'
 

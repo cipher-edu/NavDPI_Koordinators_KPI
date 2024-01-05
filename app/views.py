@@ -16,6 +16,21 @@ from django.core.paginator import PageNotAnInteger
 from django.utils import timezone
 from django.db.models import Count
 from django.views.generic.edit import FormView, UpdateView, DeleteView
+from rest_framework import generics
+from .serializers import TaskSerializer
+
+class TaskListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+class TaskRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+
+class AllTasksAPIView(generics.ListAPIView):
+    queryset = Task.objects.all()
+    serializer_class = TaskSerializer
+    
 def handler404(request, exception):
     return render(request, '404.html', status=404)
 @login_required
