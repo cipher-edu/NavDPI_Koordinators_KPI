@@ -33,16 +33,15 @@ urlpatterns = [
     path('qalqon/<uuid:pk>/edit/', QalqonUpdateView.as_view(), name='qalqon_edit'),
     path('qalqon/<uuid:pk>/delete/', QalqonDeleteView.as_view(), name='qalqon_delete'),
 
-    path('tavsiyanoma/', save_qalqon_info, name='tavsiyanoma'),
+    path('tavsiyanoma/', save_tavsiyanoma_info, name='tavsiyanoma'),
     path('tavsiyanoma/<uuid:pk>/edit/', TavsiyanomaUpdateView.as_view(), name='tavsiyanoma_edit'),
     path('tavsiyanoma/<uuid:pk>/delete/', TavsiyanomaDeleteView.as_view(), name='tavsiyanoma_delete'),
 
-    path('35-foiz-kontark/', save_qalqon_info, name='uttizbesh'),
-    path('35-foiz-kontark/<uuid:pk>/edit/', TavsiyanomaUpdateView.as_view(), name='uttizbesh_edit'),
-    path('35-foiz-kontark/<uuid:pk>/delete/', TavsiyanomaDeleteView.as_view(), name='uttizbesh_delete'),
+    path('35-foiz-kontark/', save_uttizbesh_info, name='uttizbesh'),
+    path('35-foiz-kontark/<uuid:pk>/edit/',UttizbeshDeleteView.as_view(), name='uttizbesh_edit'),
+    path('35-foiz-kontark/<uuid:pk>/delete/', UttizbeshDeleteView.as_view(), name='uttizbesh_delete'),
 
     path('tasks/api/', TaskListCreateAPIView.as_view(), name='task-list-create'),
-    path('tasks/api/<uuid:pk>/', TaskRetrieveUpdateDestroyAPIView.as_view(), name='task-detail'),
     path('all-tasks/api/', AllTasksAPIView.as_view(), name='all-tasks'),
 
     

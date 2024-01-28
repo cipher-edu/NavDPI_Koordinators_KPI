@@ -19,7 +19,7 @@ from django.views.generic.edit import FormView, UpdateView, DeleteView
 from rest_framework import generics
 from .serializers import TaskSerializer
 
-class TaskListCreateAPIView(generics.ListCreateAPIView):
+class TaskListCreateAPIView(generics.ListAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
 
@@ -362,21 +362,21 @@ def save_qalqon_info(request):
         'total_boys': boys,
         'total_girls': girls
     }
-    return render(request, 'qalqon_form.html', context)
+    return render(request, 'qalqon/qalqon_form.html', context)
 
 class QalqonDeleteView(DeleteView):
     model = Qalqon
-    template_name = 'qalqon_confirm_delete.html'  
+    template_name = 'qalqon/qalqon_confirm_delete.html'  
     success_url = reverse_lazy('qalqon')
 
 class QalqonUpdateView(UpdateView):
     model = Qalqon
     form_class = QalqonForm
-    template_name = 'qalqon_edit.html'
+    template_name = 'qalqon/qalqon_edit.html'
     success_url = reverse_lazy('qalqon')
 
 @login_required
-def save_qalqon_info(request):
+def save_tavsiyanoma_info(request):
     if request.method == 'POST':
         form = TavsiyanomaForm(request.POST, request.FILES)  # Pass request.FILES for file uploads
         if form.is_valid():
@@ -396,23 +396,23 @@ def save_qalqon_info(request):
         'total_boys': boys,
         'total_girls': girls
     }
-    return render(request, 'tavsiyanoma_form.html', context)
+    return render(request, 'tavsiyanoma/tavsiyanoma_form.html', context)
 
 class TavsiyanomaDeleteView(DeleteView):
     model = Tavsiyanoma  # Update the model to Tavsiyanoma
-    template_name = 'tavsiyanoma_confirm_delete.html'  
+    template_name = 'tavsiyanoma/tavsiyanoma_confirm_delete.html'  
     success_url = reverse_lazy('tavsiyanoma')
 
 
 class TavsiyanomaUpdateView(UpdateView):
     model = Tavsiyanoma
-    form_class = QalqonForm
-    template_name = 'tavsiyanoma_edit.html'
+    form_class = TavsiyanomaForm
+    template_name = 'tavsiyanoma/tavsiyanoma_edit.html'
     success_url = reverse_lazy('tavsiyanoma')
 
 
 @login_required
-def save_qalqon_info(request):
+def save_uttizbesh_info(request):
     if request.method == 'POST':
         form = UttizbeshForm(request.POST, request.FILES)  # Pass request.FILES for file uploads
         if form.is_valid():
@@ -432,16 +432,16 @@ def save_qalqon_info(request):
         'total_boys': boys,
         'total_girls': girls
     }
-    return render(request, 'uttizbesh_form.html', context)
+    return render(request, '35/uttizbesh_form.html', context)
 
-class TavsiyanomaDeleteView(DeleteView):
+class UttizbeshDeleteView(DeleteView):
     model = Utizbeshfoiz  # Update the model to Tavsiyanoma
-    template_name = 'uttizbesh_confirm_delete.html'  
+    template_name = '35/uttizbesh_confirm_delete.html'  
     success_url = reverse_lazy('uttizbesh')
 
 
-class TavsiyanomaUpdateView(UpdateView):
+class UttizbeshUpdateView(UpdateView):
     model = Utizbeshfoiz
     form_class = UttizbeshForm
-    template_name = 'uttizbesh_edit.html'
+    template_name = '35/uttizbesh_edit.html'
     success_url = reverse_lazy('uttizbesh')

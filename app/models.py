@@ -15,6 +15,15 @@ besh_tashabbus = [
     ('Quvnoqlar va zukkolar', 'Quvnoqlar va zukkolar'),
     ()
 ]
+
+zakovat = [
+    ('Talabalar ligasi','Talabalar ligasi'),
+    ('Intellektual liga', 'Intellektual liga'),
+    ('Rektor kubogi','Rektor kubogi'),
+    ('Breyn Ring','Breyn Ring'),
+    ('Zakovat Quiz','Zakovat Quiz'),
+    ("Shaxsiy o'yin", "Shaxsiy o'yin")
+]
 fakultets = [
         ('Metematika - Informatika', 'Matematika - Informatika'),
         ('Fizika', 'Fizika'),
