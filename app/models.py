@@ -5,6 +5,7 @@ from django.db.models import Sum
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db.models.signals import post_save
+from django.db import IntegrityError
 from django.dispatch import receiver
 def validate_image_size(value):
     limit = 2 * 1024 * 1024  # 2 MB in bytes
@@ -166,35 +167,38 @@ class Task(models.Model):
 
     def __str__(self):
         return self.task_name
+    
 class TaskCompletion(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
     coordinator = models.ForeignKey(Kordinators, on_delete=models.CASCADE)
-    completion_date = models.DateTimeField(default=timezone.now)
+    completion_date = models.DateTimeField(auto_now=True)
     title = models.CharField(max_length=100)
     description = models.TextField()
     completed_file = models.FileField(upload_to='completed_tasks/', blank=True, null=True)
     is_late_submission = models.BooleanField(default=False, verbose_name='Vazifa kechikib yuborilgan')
-    completed = models.BooleanField(default=False, verbose_name='Vazifa yakunlangan')  # Add this line
+    completed = models.BooleanField(default=False, verbose_name='Vazifa yakunlangan')
 
-    # Existing methods
+    def get_fields(self, request, obj=None):
+        if request.user.is_superuser:
+            return ('task', 'coordinator', 'title', 'description', 'completed_file', 'is_late_submission', 'completed')
+        return ('task', 'title', 'description', 'completed_file')
 
-    def __str__(self):
-        return f"Vazifa yakunlangan {self.task.task_name} koordinator ismi {self.coordinator.name}"
-    
-    def save(self, *args, **kwargs):
-        # Mark the associated task as received and completed when a TaskCompletion is created
-        if not self.completed:
-            self.completed = False
-            #self.task.mark_as_received(self.coordinator)
-        super(TaskCompletion, self).save(*args, **kwargs)
+    def save_model(self, request, obj, form, change):
+        if not obj.coordinator_id:
+            coordinators = Kordinators.objects.filter(is_available=True)
+            if coordinators.exists():
+                obj.coordinator = coordinators.first()
+            else:
+                raise IntegrityError("No available coordinator found.")
+        super().save_model(request, obj, form, change)
 
 
 class AddWork(models.Model):
-    title = models.CharField(max_length=255)
-    desc = models.TextField()
+    title = models.CharField(max_length=255, verbose_name='Sarlavha')
+    desc = models.TextField(verbose_name='Qisqacha ma\'lumot')
     file = models.FileField(upload_to = 'work/', null=True, blank=True)
-    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_tasks')
-    accepted = models.BooleanField(default=False)
+    sender = models.ForeignKey(User, verbose_name='Yuboruvchi', on_delete=models.CASCADE, related_name='sent_tasks', )
+    accepted = models.BooleanField(default=False, verbose_name='Tasdiq xolati  ❌/✅ ')
     def __str__(self):
         return self.title
     
