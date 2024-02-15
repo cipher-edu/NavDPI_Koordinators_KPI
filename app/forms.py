@@ -43,7 +43,12 @@ class KordinatorsForm(forms.ModelForm):
             'telegram': forms.TextInput(attrs={'class':'form-control col-md-12 mb-12'}),
             'mail': forms.TextInput(attrs={'class':'form-control col-md-12 mb-12'}),
         }
-class TaskCompletionForm(forms.Form):
+
+class TaskCompletionForm(forms.ModelForm):
+    class Meta:
+        model = TaskCompletion
+        exclude = ()
+
     title = forms.CharField(
         label='Topshiriq sarlavhasi',
         max_length=100,
@@ -57,6 +62,15 @@ class TaskCompletionForm(forms.Form):
         label='Topshirirqning bayonnomasi (jpg, pdf, word, excel)',
         required=False,
     )
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(TaskCompletionForm, self).__init__(*args, **kwargs)
+        if self.request and not self.request.user.is_superuser:
+            # Limit choices to tasks assigned to the current user
+            self.fields['task'].queryset = Task.objects.filter(coordinators=self.request.user)
+
+
 
 class QalqonForm(forms.ModelForm):
     class Meta:
