@@ -5,7 +5,6 @@ from django.db.models import Sum
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from django.db.models.signals import post_save
-from django.db import IntegrityError
 from django.dispatch import receiver
 def validate_image_size(value):
     limit = 2 * 1024 * 1024  # 2 MB in bytes
@@ -14,10 +13,10 @@ def validate_image_size(value):
 besh_tashabbus = [
     ('Yosh kitobxon', 'Yosh kitobxon'),
     ('Quvnoqlar va zukkolar', 'Quvnoqlar va zukkolar'),
-    ()
+    
 ]
 
-zakovat = [
+intelektual = [
     ('Talabalar ligasi','Talabalar ligasi'),
     ('Intellektual liga', 'Intellektual liga'),
     ('Rektor kubogi','Rektor kubogi'),
@@ -60,7 +59,7 @@ kordinator_states = [
         ('Matbuot kotibi, media guruh rahbari','Matbuot kotibi, media guruh rahbari')
 ]
 ilmiy_daraja = [
-    ('Tugallanmangan oliy', 'Tugallanmangan oliy'),
+    ('Bakalavr', 'Bakalavr'),
     ('Magistr', 'Magistr')
 ]
 author = [
@@ -109,6 +108,10 @@ class Kordinators(models.Model):
                 task.coordinators.add(coordinator) 
     def __str__(self):
         return self.name
+    
+    class Meta:
+        verbose_name = 'Koordinatorlar'
+        verbose_name_plural = 'Koordinatorlar ro\'yxati'
 
 class Task(models.Model):
     task_name = models.CharField(max_length=255, verbose_name='Topshiriq nomi')
@@ -167,45 +170,106 @@ class Task(models.Model):
 
     def __str__(self):
         return self.task_name
-    
+    class Meta:
+        verbose_name = 'Topshiriqlar '
+        verbose_name_plural = 'Topshiriqlar umumiy'
+        
 class TaskCompletion(models.Model):
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    task = models.ForeignKey(Task, on_delete=models.CASCADE,  verbose_name='Topshiriqlar')
     coordinator = models.ForeignKey(Kordinators, on_delete=models.CASCADE)
-    completion_date = models.DateTimeField(auto_now=True)
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    completed_file = models.FileField(upload_to='completed_tasks/', blank=True, null=True)
-    is_late_submission = models.BooleanField(default=False, verbose_name='Vazifa kechikib yuborilgan')
-    completed = models.BooleanField(default=False, verbose_name='Vazifa yakunlangan')
+    completion_date = models.DateTimeField(default=timezone.now, verbose_name='Topshirilgan vaqt')
+    title = models.CharField(max_length=100, verbose_name='Sarlahasi')
+    description = models.TextField(verbose_name='Tavsifi')
+    completed_file = models.FileField(upload_to='completed_tasks/', blank=True, null=True, verbose_name='Biriktirilgan fayl')
+    is_late_submission = models.BooleanField(default=False, verbose_name='Topshiriqlar kechikib yuborilgan yo\'q ❌/✅ ha ') 
+    completed = models.BooleanField(default=False, verbose_name='Topshiriqlar xolati ❌/✅')  # Add this line 
 
-    def get_fields(self, request, obj=None):
-        if request.user.is_superuser:
-            return ('task', 'coordinator', 'title', 'description', 'completed_file', 'is_late_submission', 'completed')
-        return ('task', 'title', 'description', 'completed_file')
+    # Existing methods
 
-    def save_model(self, request, obj, form, change):
-        if not obj.coordinator_id:
-            coordinators = Kordinators.objects.filter(is_available=True)
-            if coordinators.exists():
-                obj.coordinator = coordinators.first()
-            else:
-                raise IntegrityError("No available coordinator found.")
-        super().save_model(request, obj, form, change)
+    def __str__(self):
+        return f"Vazifa yakunlangan {self.task.task_name} koordinator ismi {self.coordinator.name}"
+    
+    def save(self, *args, **kwargs):
+        # Mark the associated task as received and completed when a TaskCompletion is created
+        if not self.completed:
+            self.completed = False
+            #self.task.mark_as_received(self.coordinator)
+        super(TaskCompletion, self).save(*args, **kwargs)
 
-
+    class Meta:
+        verbose_name = 'Topshiriqlar ijrosi'
+        verbose_name_plural = 'Topshiriqlarning ijrosi'
+        
 class AddWork(models.Model):
-    title = models.CharField(max_length=255, verbose_name='Sarlavha')
-    desc = models.TextField(verbose_name='Qisqacha ma\'lumot')
+    title = models.CharField(max_length=255)
+    desc = models.TextField()
     file = models.FileField(upload_to = 'work/', null=True, blank=True)
-    sender = models.ForeignKey(User, verbose_name='Yuboruvchi', on_delete=models.CASCADE, related_name='sent_tasks', )
-    accepted = models.BooleanField(default=False, verbose_name='Tasdiq xolati  ❌/✅ ')
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='sent_tasks')
+    accepted = models.BooleanField(default=False)
     def __str__(self):
         return self.title
-    
-# class BeshTashabbus(models.Model):
-#     fakultet = models.CharField(max_length=255, choices=fakultets, verbose_name='Fakultetni tanlang')
+        
+    class Meta:
+        verbose_name = 'Shaxsiy qilingan ishlar'
+        verbose_name_plural = 'Shaxsiy qilingan ishlar'
+
+class AddTashabbus(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    tashabbus = models.CharField(max_length=255, verbose_name='Tashabbus nomi')
+
+    def __str__(self):
+        return self.tashabbus
+
+    class Meta:
+        verbose_name = 'Tashabbus nomi'
+        verbose_name_plural = 'Tashabbuslar nomi'
+
+class AddTashabbusCategory(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    tashabbus = models.ForeignKey(AddTashabbus, on_delete=models.CASCADE,  verbose_name='Tashabbus nomi')
+    tashabbus_category = models.CharField(max_length=255, verbose_name='TAshabbus kategoriyasi')
+    def __str__(self):
+        return self.tashabbus_category
+        
+    class Meta:
+        verbose_name = 'Tashabbus nomi'
+        verbose_name_plural = 'Tashabbus yo\'nalishlari'
+
+class TashabbusTadbir(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    tashabbus = models.ForeignKey(AddTashabbus, on_delete=models.CASCADE,  verbose_name='Tashabbus nomi')
+    tashabbus_category = models.ForeignKey(AddTashabbusCategory,on_delete=models.CASCADE, verbose_name='TAshabbus kategoriyasi')
+    title = models.CharField(max_length=255, verbose_name='Tadbir sarlavhasi')
+    content = models.TextField(max_length=255, verbose_name='Tadbir mazmuni')
+    file = models.FileField(upload_to='tashabbus/', verbose_name='Faylni briktiring mavjud bo\'lsa', null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+        
+    class Meta:
+        verbose_name = 'Tashabbus tadbir'
+        verbose_name_plural = 'Tashabbus tadbirlari'
+
+###### intelektual loyihalar
 
 
+class AddIntelektual(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    intelektual = models.CharField(max_length=255, choices=intelektual,  verbose_name='Intelektual loyiha nomi')
+    title = models.CharField(max_length=255, verbose_name='Tadbir sarlavhasi')
+    content = models.TextField(max_length=255, verbose_name='Tadbir mazmuni')
+    date = models.DateTimeField(auto_now=False, verbose_name='Vaqti')
+    file = models.FileField(upload_to='tashabbus/', verbose_name='Faylni briktiring mavjud bo\'lsa', null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+        
+    class Meta:
+        verbose_name = 'Intelektual'
+        verbose_name_plural = 'Intelektual loyiha tadbirlari'
+
+#end intelektual
+        
 class Qalqon(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     fakultet = models.CharField(max_length=255, choices=fakultets, verbose_name='Fakultetni tanlang')
@@ -233,6 +297,7 @@ class Tavsiyanoma(models.Model):
         total_boys = cls.objects.aggregate(Sum('yigit_jamoa_soni'))['yigit_jamoa_soni__sum'] or 0
         total_girls = cls.objects.aggregate(Sum('qiz_jamoa_soni'))['qiz_jamoa_soni__sum'] or 0
         return total_boys, total_girls
+        
     class Meta:
         verbose_name = 'Tavsiya noma'
         verbose_name_plural = 'Tavsiya noma asosida ta\'lim oluvchilar'
@@ -249,6 +314,7 @@ class Utizbeshfoiz(models.Model):
         total_boys = cls.objects.aggregate(Sum('yigit_jamoa_soni'))['yigit_jamoa_soni__sum'] or 0
         total_girls = cls.objects.aggregate(Sum('qiz_jamoa_soni'))['qiz_jamoa_soni__sum'] or 0
         return total_boys, total_girls
+        
     class Meta:
         verbose_name = '35% lik'
         verbose_name_plural = '35% lik kontrakt asosida ta\'lim oluvchilar'

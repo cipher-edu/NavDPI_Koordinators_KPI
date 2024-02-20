@@ -25,35 +25,35 @@ class KordinatorsAdmin(admin.ModelAdmin):
 
 @admin.register(Task)
 class TaskAmdin(admin.ModelAdmin):
-    list_display = ('task_name', 'task_body', 'task_date', 'task_and_date',  'task_file',)
+    list_display = ('task_name', 'task_body', 'task_date', 'task_and_date',  'task_file','completed')
     list_filter = ('task_name', 'task_body', 'task_date', 'task_and_date', 'coordinators',)
     search_fields = ('task_name', 'task_body', 'task_date', 'task_and_date', 'coordinators',)
     list_display_links = ('task_name',)
 @admin.register(TaskCompletion)
 class TaskCompletionAdmin(admin.ModelAdmin):
-    list_display = ('task', 'completion_date', 'title', 'description', 'completed_file', 'is_late_submission')
+    list_display = ('task', 'completion_date', 'title', 'completed_file', 'completed', 'is_late_submission')
     list_filter = ('task', 'completion_date', 'title', 'description', 'completed_file', 'is_late_submission')
-    search_fields = ('task', 'completion_date', 'title', 'description', 'completed_file', 'is_late_submission')
+    search_fields = ('task', 'completion_date', 'title', 'completed',  'description', 'completed_file', 'is_late_submission')
     list_display_links = ('task',)
 
     def get_fields(self, request, obj=None):
         if request.user.is_superuser:
             return ('task', 'coordinator', 'title', 'description', 'completed_file', 'is_late_submission', 'completed')
-        return ('task', 'title', 'description', 'completed_file')
+        return ('task', 'title','coordinator', 'description', 'completed_file')
 
-    def save_model(self, request, obj, form, change):
-        if not obj.coordinator_id:
-            coordinators = Kordinators.objects.annotate(num_tasks=Count('taskcompletion')).order_by('num_tasks')
-            if coordinators.exists():
-                obj.coordinator = coordinators.first()
-            else:
-                raise IntegrityError("No available coordinator found.")
+    # def save_model(self, request, obj, form, change):
+    #     if not obj.coordinator_id:
+    #         coordinators = Kordinators.objects.annotate(num_tasks=Count('taskcompletion')).order_by('num_tasks')
+    #         if coordinators.exists():
+    #             obj.coordinator = coordinators.first()
+    #         else:
+    #             raise IntegrityError("No available coordinator found.")
         
-        super().save_model(request, obj, form, change)
+    #     super().save_model(request, obj, form, change)
         
-        if obj.coordinator:
-            message_text = f"Task '{obj.task}' completed successfully."
-            messages.add_message(request, messages.INFO, message_text)
+    #     if obj.coordinator:
+    #         message_text = f"Task '{obj.task}' completed successfully."
+    #         messages.add_message(request, messages.INFO, message_text)
 
 @admin.register(AddWork)
 class AddWorkAdmin(admin.ModelAdmin):
@@ -115,4 +115,64 @@ class UtizbeshfoizAdmin(admin.ModelAdmin):
         # Save the object
         super().save_model(request, obj, form, change)
         message_text = f"New Qalqon data added by {obj.user.username}."
+        messages.add_message(request, messages.INFO, message_text)
+        
+@admin.register(AddTashabbus)
+class AddTashabbusAdmin(admin.ModelAdmin):
+    list_display = ('tashabbus',)
+
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        
+        # Save the object
+        super().save_model(request, obj, form, change)
+        message_text = f"New Tashabbus data added by {obj.user.username}."
+        messages.add_message(request, messages.INFO, message_text)
+
+@admin.register(AddTashabbusCategory)
+class AddTashabbusCategoryAdmin(admin.ModelAdmin):
+    list_display = ('tashabbus', 'tashabbus_category', 'related_tashabbus_name')
+
+    def related_tashabbus_name(self, obj):
+        return obj.tashabbus
+    
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        
+        # Save the object
+        super().save_model(request, obj, form, change)
+        message_text = f"New Tashabbus category data added by {obj.user.username}."
+        messages.add_message(request, messages.INFO, message_text)
+
+@admin.register(TashabbusTadbir)
+class AddTashabbusTadbirAdmin(admin.ModelAdmin):
+    list_display = ('tashabbus', 'related_tashabbus_name', 'related_tashabbus_name','title', 'content','file',)
+    list_filter = ('tashabbus', 'tashabbus_category','title', 'content','file',)
+
+    def related_tashabbus_name(self, obj):
+        return obj.tashabbus
+
+    def related_tashabbus_cate(self, obj):
+        return obj.tashabbus_category
+    
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        
+        # Save the object
+        super().save_model(request, obj, form, change)
+        message_text = f"Yangi Tashabbus tadbirini {obj.user.username} muvofaqiyatli yaratdingiz!."
+        messages.add_message(request, messages.INFO, message_text)
+
+@admin.register(AddIntelektual)
+class AddIntelektualTadbirAdmin(admin.ModelAdmin):
+    list_display = ('intelektual','save_model','title', 'content','file',)
+    list_filter = ('intelektual', 'title', 'content','file',)
+
+    
+    def save_model(self, request, obj, form, change):
+        obj.user = request.user
+        
+        # Save the object
+        super().save_model(request, obj, form, change)
+        message_text = f"Yangi Intelektual loyiha tadbirini {obj.user.username} muvofaqiyatli yaratdingiz!."
         messages.add_message(request, messages.INFO, message_text)
